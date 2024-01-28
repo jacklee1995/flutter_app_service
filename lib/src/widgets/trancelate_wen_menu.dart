@@ -8,7 +8,7 @@ import 'package:get_it/get_it.dart';
 import '../../app_service.dart';
 import '../utils/lang.dart';
 
-/// 语言选择菜单
+/// Language selection menu
 class Wen extends StatefulWidget {
   final Widget icon;
   const Wen({

@@ -8,12 +8,12 @@ import 'utils/lang.dart';
 import 'utils/theme.dart';
 
 class AppService extends GetxService {
-  /// 所有支持的语言都应该在这里体现
+  /// All supported languages should be reflected here.
   final List<LanguageEnum> supportedLanguages;
 
   RxBool isDarkMode = false.obs;
   final Rx<ColorThemesEnum> _themesEnum =
-      ColorThemesEnum.blueDelight.obs; // 初始化为 blueDelight 主题
+      ColorThemesEnum.blueDelight.obs; // Initialize to blueDelight theme
   final Rx<LanguageEnum> language = LanguageEnum.enUs.obs;
 
   AppService({
@@ -26,17 +26,19 @@ class AppService extends GetxService {
     language.value = defaultLang;
   }
 
-  /// 获取当前的主题数据，一般用于应用初始化
+  /// Get the current theme data,
+  /// which is generally used for application
+  /// initialization.
   ThemeData get currentTheme {
     return getThemeDataByEnum(_themesEnum.value, isDarkMode.value);
   }
 
-  /// 获取当前的语言枚举值
+  /// Gets the current language enumeration value.
   LanguageEnum get currentLang {
     return language.value;
   }
 
-  /// 获取当前的语言字符串
+  /// Gets the current language name string
   String get currentLangStr {
     String? lang = langEnumToStr(language.value);
 
@@ -46,8 +48,8 @@ class AppService extends GetxService {
     return lang;
   }
 
-  /// 设置新的颜色主题
-  /// - themeEnum 表示语言主题的枚举值
+  /// Set a new color theme
+  /// - themeEnum: Enumeration value representing language theme.
   void setColorTheme(ColorThemesEnum themeEnum) {
     _themesEnum.value = themeEnum;
     Get.changeTheme(getThemeDataByEnum(_themesEnum.value, isDarkMode.value));
@@ -55,21 +57,21 @@ class AppService extends GetxService {
     saveState();
   }
 
-  /// 切换到暗黑模式
+  /// Switch to dark mode
   void setDarkMode() {
     isDarkMode.value = true;
     setColorTheme(_themesEnum.value);
     saveState();
   }
 
-  /// 切换到白亮模式
+  /// Switch to white light mode
   void setLightMode() {
     isDarkMode.value = false;
     setColorTheme(_themesEnum.value);
     saveState();
   }
 
-  /// 切换暗黑模式
+  /// Toggle dark mode
   void toggleDarkMode() {
     isDarkMode.value = !isDarkMode.value;
     // 切换暗黑模式
@@ -77,12 +79,14 @@ class AppService extends GetxService {
     saveState();
   }
 
-  /// 设置一种实现了国际化的语言作为当前语言
+  /// Set an internationalized language as
+  /// the current language.
   void updateLocale(LanguageEnum newLanguage) {
     language.value = newLanguage;
     String? langStr = langEnumToStr(language.value);
 
-    // 切换语言的逻辑，如加载对应的语言包等
+    // Logic of switching languages, such as
+    // loading corresponding language packs, etc.
     if (langStr == 'CN') {
       Get.updateLocale(const Locale('zh', 'CN'));
     } else if (langStr == 'zh') {
@@ -110,48 +114,48 @@ class AppService extends GetxService {
     saveState();
   }
 
-  // 从SharedPreferences加载状态
+  // Load status from SharedPreferences
   Future<void> init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // 加载主题
+    // Load theme
     String? themeEnumString = prefs.getString('themeEnum');
     if (themeEnumString != null) {
       ColorThemesEnum themeEnum = ColorThemesEnum.values
           .firstWhere((e) => e.toString() == themeEnumString);
-      // 更新颜色主题
+      // Update color theme
       setColorTheme(themeEnum);
     }
 
-    // 加载暗黑模式状态
+    // Load dark mode state
     bool? isDarkModeValue = prefs.getBool('isDarkMode');
     if (isDarkModeValue != null) {
       isDarkMode.value = isDarkModeValue;
-      // 更新颜色主题
+      // Update color theme
       setColorTheme(_themesEnum.value);
     }
 
-    // 加载语言
+    // Loading language
     String? langEnumString = prefs.getString('langEnum');
     if (langEnumString != null) {
       LanguageEnum langEnum =
           LanguageEnum.values.firstWhere((e) => e.toString() == langEnumString);
-      // 更新语言
+      // Update language
       updateLocale(langEnum);
     }
   }
 
-  // 将状态保存到SharedPreferences
+  // Save state to SharedPreferences.
   Future<void> saveState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // 保存主题
+    // Save theme
     prefs.setString('themeEnum', _themesEnum.value.toString());
 
-    // 保存暗黑模式状态
+    // Save dark mode state
     prefs.setBool('isDarkMode', isDarkMode.value);
 
-    // 保存语言
+    // Preservation language
     prefs.setString('langEnum', language.value.toString());
   }
 }

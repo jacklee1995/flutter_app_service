@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import '../app_service.dart';
 
-/// 颜色切换开关组件
+/// Color changeover switch
 class DarkModeSwitch extends StatefulWidget {
   final double width;
   final double height;
@@ -59,21 +59,21 @@ class _DarkModeSwitchState extends State<DarkModeSwitch>
       () {
         final bool isDarkMode = appService.isDarkMode.value;
 
-        // 图标
+        // icon
         IconData icon =
             isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode;
 
-        // 滑槽颜色
+        // Chute color
         Color? spoutColor = isDarkMode
             ? const Color.fromARGB(255, 73, 73, 73)
             : const Color.fromARGB(255, 226, 226, 226);
 
-        // 滑块颜色
+        // Slider color
         Color? sliderColor = isDarkMode
             ? const Color.fromARGB(255, 8, 8, 8)
             : const Color.fromARGB(255, 255, 255, 255);
 
-        // 图标颜色
+        // Icon color
         Color iconColor = isDarkMode
             ? const Color.fromARGB(255, 182, 182, 182)
             : const Color.fromARGB(255, 118, 118, 118);
