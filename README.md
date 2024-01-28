@@ -1,12 +1,12 @@
 # App Service
 
-[中文文档]()
+[中文文档](https://github.com/jacklee1995/flutter_app_service/blob/master/README_CN.md)
 
 An application service based on [GetX](https://pub.dev/packages/get), which provides application-level management services, such as theme management, dark mode management and localization management.
 
-![Alt text](./example/readme_images/studio64_5duUzsvaJV.gif)
+![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/studio64_5duUzsvaJV.gif)
 
-![Alt text](./example/readme_images/example_wrJkq7TYlE.gif)
+![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/example_wrJkq7TYlE.gif)
 
 
 
@@ -146,11 +146,11 @@ const ThemeModal(),
 
 It displays as a theme icon on the page:
 
-![chrome_HM2hFfct9z](./example/readme_images/chrome_HM2hFfct9z.png)
+![chrome_HM2hFfct9z](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_HM2hFfct9z.png)
 
 If you touch or click on the icon, a dialog will appear to allow users to choose a theme:
 
-![chrome_oPKRHK21u2](./example/readme_images/chrome_oPKRHK21u2.png)
+![chrome_oPKRHK21u2](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_oPKRHK21u2.png)
 
 Each theme is displayed in the modal as a circle with its `primaryColor`, and the selected theme has a checkmark next to its circle.
 
@@ -169,7 +169,7 @@ Additionally, on the instance object `appService`, there are methods `setDarkMod
 
 **DarkModeSwitch** is a toggle switch for dark mode that you can use directly in your code. In appearance, it looks like this:
 
-![chrome_kVi5w711Re](./example/readme_images/chrome_kVi5w711Re.gif)
+![chrome_kVi5w711Re](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_kVi5w711Re.gif)
 
 
 ### 3. Localization
@@ -238,7 +238,7 @@ Here, the default value for `defaultLang` is *LanguageEnum.en*. This definition 
 
 The application title cannot be translated using the `.tr` provided by **GetX** because this method is not available before the initialization of the top-level component. This is especially evident in the localization switch effect on the **Web**:
 
-![chrome_0ywly93CSl](./example/readme_images/chrome_0ywly93CSl.gif)
+![chrome_0ywly93CSl](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_0ywly93CSl.gif)
 
 To achieve dynamic switching, you can use a `switch` statement, as shown in the example below:
 
@@ -290,7 +290,7 @@ const LangSelectMenu(),
 
 It looks like this:
 
-![chrome_WBdxDZiVCG](./example/readme_images/chrome_WBdxDZiVCG.gif)
+![chrome_WBdxDZiVCG](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_WBdxDZiVCG.gif)
 
 **Wen** is also a button with a pop-up menu, but it is displayed with an icon, usually in the **Header**:
 
@@ -300,7 +300,7 @@ const Wen()
 
 It looks like this:
 
-![C844qQlH1K](./example/readme_images/C844qQlH1K.png)
+![C844qQlH1K](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/C844qQlH1K.png)
 
 You can customize the displayed icon, as well as the size of the icon, and it can be any widget.
 
@@ -347,7 +347,7 @@ class MyApp extends StatelessWidget {
 
 In the Web App, the current [sharedPreferencesWeb](https://pub.dev/packages/shared_preferences_web) library utilizes [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) for key-value pair storage. If there are changes to the relevant states managed by AppService, these changes will be directly reflected in the browser's localStorage:
 
-![Alt text](./example/readme_images/chrome_aQ4vYWZSYM.gif)
+![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_aQ4vYWZSYM.gif)
 
 
 
