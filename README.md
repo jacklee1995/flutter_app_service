@@ -10,7 +10,7 @@ An application service based on [GetX](https://pub.dev/packages/get), which prov
 
 
 
-**Author:** [Jack Lee]()
+**Author:** [Jack Lee](https://github.com/jacklee1995/flutter_app_service/blob/master/README_CN.md)
 
 **Email:** [291148484@163.com](291148484@163.com)
 
