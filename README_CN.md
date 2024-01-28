@@ -2,9 +2,9 @@
 
 App Service 是一个基于 [GetX](https://pub.dev/packages/get) 的应用服务，提供应用级别的管理服务，如主题管理、深色模式管理和本地化管理。
 
-![Alt text](studio64_5duUzsvaJV.gif)
+![Alt text](./example/readme_images/studio64_5duUzsvaJV.gif)
 
-![Alt text](example_wrJkq7TYlE.gif)
+![Alt text](./example/readme_images/example_wrJkq7TYlE.gif)
 
 
 
@@ -144,11 +144,11 @@ const ThemeModal(),
 
 它以一个主题图标的形式显示在页面上：
 
-![chrome_HM2hFfct9z](./README.assets/chrome_HM2hFfct9z.png)
+![chrome_HM2hFfct9z](./example/readme_images/chrome_HM2hFfct9z.png)
 
 如果触摸或点击该图标，将会以对话框的形式为用户提供主题选择：
 
-![chrome_oPKRHK21u2](./README.assets/chrome_oPKRHK21u2.png)
+![chrome_oPKRHK21u2](./example/readme_images/chrome_oPKRHK21u2.png)
 
 每一个主题将以其`primaryColor`色的圆形显示在该模态框中，被选中的主题对应的圆形有一个“√”号。
 
@@ -167,7 +167,7 @@ appService.toggleDarkMode()
 
 **DarkModeSwitch** 是一个可以直接使用的暗黑模式切换开关，你可以直接在代码中使用它。外观上，它看起来就像这样：
 
-![chrome_kVi5w711Re](./README.assets/chrome_kVi5w711Re.gif)
+![chrome_kVi5w711Re](./example/readme_images/chrome_kVi5w711Re.gif)
 
 
 ### 3. Localization
@@ -236,7 +236,7 @@ AppService appService = AppService(
 
 应用标题是不能使用**GetX**提供的`.tr`来实现翻译的，因为在顶层组件初始化完成之前该方法不可用。这在 **Web** 端的本地化切换效果尤为明显：
 
-![chrome_0ywly93CSl](./README.assets/chrome_0ywly93CSl.gif)
+![chrome_0ywly93CSl](./example/readme_images/chrome_0ywly93CSl.gif)
 
 为了实现这种动态切换，你可以像我一样使用一个`switch`语句，下面是一个示例：
 
@@ -288,7 +288,7 @@ const LangSelectMenu(),
 
 看起来像这样：
 
-![chrome_WBdxDZiVCG](./README.assets/chrome_WBdxDZiVCG.gif)
+![chrome_WBdxDZiVCG](./example/readme_images/chrome_WBdxDZiVCG.gif)
 
 **Wen**也是一个弹出菜单的按钮，只不过它以一个图标显示，这通常同于**Header**中：
 
@@ -298,7 +298,7 @@ const Wen()
 
 看起来就像这样：
 
-![C844qQlH1K](./README.assets/C844qQlH1K.png)
+![C844qQlH1K](./example/readme_images/C844qQlH1K.png)
 
 你可以自定义显示的图标，以及图标的大小，并且它可以是任何组件。
 
@@ -348,7 +348,7 @@ class MyApp extends StatelessWidget {
 
 在 Web App 中，当前的 [sharedPreferencesWeb](https://pub.dev/packages/shared_preferences_web) 库通过 [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 实现键值对存储。如果改变 AppService 所管理的相关状态，这些变化将直接反映在浏览器的 localStorage 中：
 
-![Alt text](chrome_aQ4vYWZSYM.gif)
+![Alt text](./example/readme_images/chrome_aQ4vYWZSYM.gif)
 
 
 
@@ -370,7 +370,7 @@ class MyApp extends StatelessWidget {
 
 | App Service | GetX |
 | :---------- | :--- |
-| 1.0.0       | 4.6  |
+| 1.0       | 4.6  |
 
 版本相差不大都可以通用。
 
