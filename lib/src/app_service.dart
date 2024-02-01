@@ -14,7 +14,7 @@ class AppService extends GetxService {
   RxBool isDarkMode = false.obs;
   final Rx<ColorThemesEnum> _themesEnum =
       ColorThemesEnum.blueDelight.obs; // Initialize to blueDelight theme
-  final Rx<LanguageEnum> language = LanguageEnum.enUs.obs;
+  final Rx<LanguageEnum> language = LanguageEnum.enUS.obs;
 
   AppService({
     this.supportedLanguages = const [
@@ -43,7 +43,7 @@ class AppService extends GetxService {
     String? lang = langEnumToStr(language.value);
 
     if (lang == null) {
-      return langEnumToStr(LanguageEnum.enUs)!;
+      return langEnumToStr(LanguageEnum.enUS)!;
     }
     return lang;
   }
@@ -74,7 +74,7 @@ class AppService extends GetxService {
   /// Toggle dark mode
   void toggleDarkMode() {
     isDarkMode.value = !isDarkMode.value;
-    // 切换暗黑模式
+    // Update dark mode
     setColorTheme(_themesEnum.value);
     saveState();
   }
@@ -85,29 +85,10 @@ class AppService extends GetxService {
     language.value = newLanguage;
     String? langStr = langEnumToStr(language.value);
 
-    // Logic of switching languages, such as
-    // loading corresponding language packs, etc.
-    if (langStr == 'CN') {
-      Get.updateLocale(const Locale('zh', 'CN'));
-    } else if (langStr == 'zh') {
-      Get.updateLocale(const Locale('zh', 'CN'));
-    } else if (langStr == 'zh_TW') {
-      Get.updateLocale(const Locale('zh', 'TW'));
-    } else if (langStr == 'zh_HK') {
-      Get.updateLocale(const Locale('zh', 'HK'));
-    } else if (langStr == 'zh_Hans') {
-      Get.updateLocale(const Locale('zh', 'Hans'));
-    } else if (langStr == 'zh_Hant') {
-      Get.updateLocale(const Locale('zh', 'Hant'));
-    } else if (langStr == 'en') {
-      Get.updateLocale(const Locale('en', 'UK'));
-    } else if (langStr == 'UK') {
-      Get.updateLocale(const Locale('en', 'UK'));
-    } else if (langStr == 'US') {
-      Get.updateLocale(const Locale('en', 'US'));
-    } else if (langStr == null) {
-      throw Exception('AppServiceError-setLanguage: langStr is null');
-    } else {
+    if (langStr != null) {
+      if (langStr == 'en') {
+        Get.updateLocale(const Locale('en', 'US'));
+      }
       Get.updateLocale(Locale(langStr));
     }
 

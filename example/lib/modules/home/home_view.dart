@@ -36,6 +36,13 @@ class HomeView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Text('app_service.language_tag'.tr + 'app_service.:'.tr),
+                  Text('${Get.locale?.toLanguageTag()}')
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   Text('app_service.color_theme'.tr + 'app_service.:'.tr),
                   const ThemeModal(),
                 ],

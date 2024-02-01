@@ -25,8 +25,7 @@ class _LangSelectMenuState extends State<LangSelectMenu> {
   Widget build(BuildContext context) {
     final AppService appService = GetIt.instance.get<AppService>();
     return DropdownButtonHideUnderline(
-      child: SizedBox(
-        width: 160, // 给Row一个明确的宽度
+      child: Expanded(
         child: DropdownButton<String>(
           isExpanded: true,
           hint: Row(
@@ -43,6 +42,7 @@ class _LangSelectMenuState extends State<LangSelectMenu> {
                 'app_service.lang.${appService.currentLangStr}'.tr,
                 style: const TextStyle(
                   fontSize: 14,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               const Spacer(),

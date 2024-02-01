@@ -371,6 +371,7 @@ class MyApp extends StatelessWidget {
 | App Service | GetX |
 | :---------- | :--- |
 | 1.0       | 4.6  |
+| 2.0       | 4.6  |
 
 版本相差不大都可以通用。
 

@@ -5,11 +5,19 @@ import '../enums/language_enum.dart';
 /// - 此字符串多数情况下为直接可用于 Local 的字符串标识
 final Map<LanguageEnum, String> languageEnumToStringMap = {
   LanguageEnum.zh: 'zh', // 中文
-  LanguageEnum.zhHans: 'zh_Hans', // 简体中文
-  LanguageEnum.zhHant: 'zh_Hant', // 繁体中文
-  LanguageEnum.zhHk: 'zh_HK', // 中文（香港）
-  LanguageEnum.zhTw: 'zh_TW', // 中文（台湾）
+  LanguageEnum.zhCN: 'zh-CN', // 简体中文
+  LanguageEnum.zhMO: 'zh-MO', // 中文（澳门）
+  LanguageEnum.zhHk: 'zh-HK', // 中文（香港）
+  LanguageEnum.zhTW: 'zh-TW', // 中文（台湾）
   LanguageEnum.ru: 'ru', // 俄语
+  LanguageEnum.ruRU: 'ru-RU', // 俄语
+  LanguageEnum.ruBY: 'ru-BY', // 俄语
+  LanguageEnum.ruKZ: 'ru-KZ', // 俄语
+  LanguageEnum.ruUA: 'ru-UA', // 俄语
+  LanguageEnum.uk: 'uk', // 乌克兰
+  LanguageEnum.be: 'be', // 白俄罗斯
+  LanguageEnum.kk: 'kk', // 哈萨克语
+  LanguageEnum.sr: 'sr', // 塞尔维亚
   LanguageEnum.de: 'de', // 德语
   LanguageEnum.fr: 'fr', // 法语
   LanguageEnum.ja: 'ja', // 日语
@@ -17,8 +25,10 @@ final Map<LanguageEnum, String> languageEnumToStringMap = {
   LanguageEnum.es: 'es', // 西班牙语
   LanguageEnum.ar: 'ar', // 阿拉伯语
   LanguageEnum.en: 'en', // 英语
-  LanguageEnum.enUs: 'US', // 英语（美国）
-  LanguageEnum.enUk: 'UK', // 英语（英国）
+  LanguageEnum.enUS: 'en-US', // 英语（美国）
+  LanguageEnum.enUK: 'en-GB', // 英语（英国）
+  LanguageEnum.enAU: 'en-AU', // 英语（澳大利亚）
+  LanguageEnum.enIN: 'en-IN', // 英语（印度）
   LanguageEnum.pt: 'pt', // 葡萄牙语
   LanguageEnum.it: 'it', // 意大利语
   LanguageEnum.nl: 'nl', // 荷兰语
@@ -62,7 +72,6 @@ final Map<LanguageEnum, String> languageEnumToStringMap = {
   LanguageEnum.haw: 'haw', // 夏威夷语
   LanguageEnum.iw: 'iw', // 希伯来语
   LanguageEnum.jw: 'jw', // 爪哇语
-  LanguageEnum.kk: 'kk', // 哈萨克语
   LanguageEnum.km: 'km', // 高棉语
   LanguageEnum.kn: 'kn', // 卡纳达语
   LanguageEnum.ky: 'ky', // 吉尔吉斯语
@@ -82,7 +91,6 @@ final Map<LanguageEnum, String> languageEnumToStringMap = {
   LanguageEnum.pa: 'pa', // 旁遮普语
   LanguageEnum.qu: 'qu', // 克丘亚语
   LanguageEnum.gd: 'gd', // 苏格兰盖尔语
-  LanguageEnum.sr: 'sr', // 塞尔维亚语
   LanguageEnum.st: 'st', // 塞索托语
   LanguageEnum.sn: 'sn', // 修纳语
   LanguageEnum.sd: 'sd', // 信德语

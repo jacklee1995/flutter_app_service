@@ -3,11 +3,19 @@ import '../enums/language_enum.dart';
 /// 语言字符串到语言枚举的映射关系
 final Map<String, LanguageEnum> strToLangEnumMap = {
   'zh': LanguageEnum.zh, // 中文
-  'zh_Hans': LanguageEnum.zhHans, // 简体中文
-  'zh_Hant': LanguageEnum.zhHant, // 繁体中文
-  'zh_HK': LanguageEnum.zhHk, // 中文（香港）
-  'zh_TW': LanguageEnum.zhTw, // 中文（台湾）
+  'zh-CN': LanguageEnum.zhCN, // 简体中文
+  'zh-MO': LanguageEnum.zhMO, // 中文（澳门）
+  'zh-HK': LanguageEnum.zhHk, // 中文（香港）
+  'zh-TW': LanguageEnum.zhTW, // 中文（台湾）
   'ru': LanguageEnum.ru, // 俄语
+  'ru-RU': LanguageEnum.ruRU, // 俄语（俄罗斯）
+  'ru-BY': LanguageEnum.ruBY, // 俄语（白俄罗斯）
+  'ru-KZ': LanguageEnum.ruKZ, // 俄语（哈萨克斯坦）
+  'ru-UA': LanguageEnum.ruUA, // 俄语（乌克兰）
+  'uk': LanguageEnum.uk, // 乌克兰
+  'kk': LanguageEnum.kk, // 哈萨克斯坦
+  'be': LanguageEnum.be, // 白俄罗斯
+  'sr': LanguageEnum.sr, // 塞尔维亚
   'de': LanguageEnum.de, // 德语
   'fr': LanguageEnum.fr, // 法语
   'ja': LanguageEnum.ja, // 日语
@@ -15,8 +23,10 @@ final Map<String, LanguageEnum> strToLangEnumMap = {
   'es': LanguageEnum.es, // 西班牙语
   'ar': LanguageEnum.ar, // 阿拉伯语
   'en': LanguageEnum.en, // 英语
-  'US': LanguageEnum.enUs, // 英语（美国）
-  'UK': LanguageEnum.enUk, // 英语（英国）
+  'en-US': LanguageEnum.enUS, // 英语（美国）
+  'en-GB': LanguageEnum.enUK, // 英语（英国）
+  'en-AU': LanguageEnum.enAU, // 英语（印度）
+  'en-IN': LanguageEnum.enIN, // 英语（印度）
   'pt': LanguageEnum.pt, // 葡萄牙语
   'it': LanguageEnum.it, // 意大利语
   'nl': LanguageEnum.nl, // 荷兰语
@@ -60,7 +70,6 @@ final Map<String, LanguageEnum> strToLangEnumMap = {
   'haw': LanguageEnum.haw, // 夏威夷语
   'iw': LanguageEnum.iw, // 希伯来语
   'jw': LanguageEnum.jw, // 爪哇语
-  'kk': LanguageEnum.kk, // 哈萨克语
   'km': LanguageEnum.km, // 高棉语
   'kn': LanguageEnum.kn, // 卡纳达语
   'ky': LanguageEnum.ky, // 吉尔吉斯语
@@ -80,7 +89,6 @@ final Map<String, LanguageEnum> strToLangEnumMap = {
   'pa': LanguageEnum.pa, // 旁遮普语
   'qu': LanguageEnum.qu, // 凯楚亚语
   'gd': LanguageEnum.gd, // 苏格兰盖尔语
-  'sr': LanguageEnum.sr, // 塞尔维亚语
   'st': LanguageEnum.st, // 塞索托语
   'sn': LanguageEnum.sn, // 修纳语
   'sd': LanguageEnum.sd, // 信德语

@@ -3,43 +3,64 @@ import 'package:get/get.dart';
 class HomeMessages extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
-        'zh_CN': {
+        'zh': {
           'home.appService_demo': 'AppService 演示',
         },
-        'zh_TW': {
-          'home.appService_demo': 'AppService 演示', // 繁体
+        'zh-HK': {
+          'home.appService_demo': 'AppService 演示',
+        },
+        'zh-MO': {
+          'home.appService_demo': 'AppService 演示',
+        },
+        'zh-TW': {
+          'home.appService_demo': 'AppService 演示',
         },
         'en': {
           'home.appService_demo': 'AppService Demo',
         },
-        'en_US': {
+        'en-US': {
           'home.appService_demo': 'AppService Demo',
         },
-        'en_UK': {
+        'en-GB': {
           'home.appService_demo': 'AppService Demo',
         },
-        'ko_KR': {
+        'ko': {
           'home.appService_demo': 'AppService 데모', // 韩语
         },
-        'ja_JP': {
+        'ja': {
           'home.appService_demo': 'AppService デモ', // 日语
         },
-        'fr_FR': {
+        'fr': {
           'home.appService_demo': 'Démo AppService', // 法语
         },
-        'de_DE': {
+        'de': {
           'home.appService_demo': 'AppService Demo', // 德语
         },
-        'ar_AR': {
+        'ru': {
+          'home.appService_demo': 'Демо-версия AppService', // 俄语
+        },
+        'uk': {
+          'home.appService_demo': 'Демо AppService', // 乌克兰语
+        },
+        'be': {
+          'home.appService_demo': 'Дэма-версія AppService', // 白俄罗斯语
+        },
+        'kk': {
+          'home.appService_demo': 'AppService Демо', // 哈萨克语
+        },
+        'ar': {
           'home.appService_demo': 'عرض خدمة التطبيق', // 阿拉伯语
         },
-        'he_IL': {
+        'he': {
           'home.appService_demo': 'הדגמה של שירותי האפליקציה', // 希伯来语
         },
-        'it_IT': {
+        'sr': {
+          'home.appService_demo': 'Апликација за приказ демо верзије', // 塞尔维亚语
+        },
+        'it': {
           'home.appService_demo': 'Demo del servizio', // 意大利语
         },
-        'pt_PT': {
+        'pt': {
           'home.appService_demo': 'Demo do serviço', // 葡萄牙语
         },
       };

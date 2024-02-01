@@ -27,14 +27,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appService = GetIt.instance.get<AppService>();
-
     return GetMaterialApp(
       debugShowCheckedModeBanner: Get.testMode,
-      title: switch (Get.locale?.languageCode) {
-        'zh' => 'AppService 演示',
-        'en' => 'AppService Demo',
-        'fr' => 'AppService démonstration',
-        'ja' => 'AppServiceデモ',
+      title: switch (Get.locale?.toLanguageTag()) {
+        'zh' => 'AppService 演示 (zh)',
+        'zh-CN' => 'AppService 演示（陆）',
+        'zh-HK' => 'AppService 演示（港）',
+        'zh-MO' => 'AppService 演示（澳）',
+        'zh-TW' => 'AppService 演示（台）',
+        'en' => 'AppService Demo (en)',
+        'en-GB' => 'AppService Dem (GB)',
+        'en-US' => 'AppService Demo (US)',
+        'ru' => 'Демонстрация сервиса приложения',
+        'ru-RU' => 'Демонстрация сервиса приложения',
+        'ru-BY' => 'Дэма-версія паслугі',
+        'ru-UA' => 'Демо-версія служби',
+        'ru-KZ' => 'AppService Демо',
+        'fr' => 'AppService démonstration (fr)',
+        'ja' => 'AppServiceデモ (日)',
         'ko' => 'App 서비스 데모',
         'ar' => 'تطبيق AppService',
         _ => 'AppService Demo',
