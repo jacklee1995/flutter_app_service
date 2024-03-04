@@ -8,13 +8,13 @@ class ColoredCircle extends StatelessWidget {
   final Function()? onTap;
 
   const ColoredCircle({
-    Key? key,
+    super.key,
     required this.themeData,
     required this.size,
     this.isSelected = false,
     this.shape = BoxShape.circle,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

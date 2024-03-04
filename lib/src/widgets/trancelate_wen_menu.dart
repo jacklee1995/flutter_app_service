@@ -5,7 +5,8 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 import 'package:get_it/get_it.dart';
 
-import '../../app_service.dart';
+import '../app_service.dart';
+import '../enums/language_enum.dart';
 import '../utils/lang.dart';
 
 /// Language selection menu
@@ -23,9 +24,8 @@ class Wen extends StatefulWidget {
   State<StatefulWidget> createState() => _WenState();
 }
 
-/// 状态类用于[Wen]小部件。
 class _WenState extends State<Wen> {
-  String? selectedValue; // 选中的值
+  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,6 @@ class _WenState extends State<Wen> {
         itemBuilder: (context) => appService.supportedLanguages.map((entry) {
           String? langString = langEnumToStr(entry);
 
-          // 生成新字符串并添加到列表
           return PopupMenuItem<String>(
             value: langString,
             child: Row(
@@ -48,7 +47,7 @@ class _WenState extends State<Wen> {
                   height: 12,
                 ),
                 const SizedBox(width: 5),
-                // 语言名称
+                // Language name
                 Text(
                   'app_service.lang.$langString'.tr,
                   style: const TextStyle(
@@ -61,7 +60,6 @@ class _WenState extends State<Wen> {
             ),
           );
         }).toList(),
-
         onSelected: (String? value) {
           selectedValue = value;
           LanguageEnum? langEnum = strToLangEnum(value!);
@@ -69,7 +67,6 @@ class _WenState extends State<Wen> {
             appService.updateLocale(langEnum);
           }
         },
-        // // 按钮样式数据
       ),
     );
   }

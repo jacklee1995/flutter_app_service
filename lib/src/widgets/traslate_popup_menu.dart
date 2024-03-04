@@ -17,9 +17,8 @@ class LangSelectMenu extends StatefulWidget {
   State<StatefulWidget> createState() => _LangSelectMenuState();
 }
 
-/// 状态类用于[LangSelectMenu]小部件。
 class _LangSelectMenuState extends State<LangSelectMenu> {
-  String? selectedValue; // 选中的值
+  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class _LangSelectMenuState extends State<LangSelectMenu> {
           isExpanded: true,
           hint: Row(
             children: [
-              // 国旗标记
+              // Flag mark
               CountryFlag(
                 country: Country.fromCode(
                   getCountryCode(appService.currentLangStr),
@@ -58,11 +57,11 @@ class _LangSelectMenuState extends State<LangSelectMenu> {
               appService.updateLocale(langEnum);
             }
           },
-          // 下拉菜单项
+          // Drop-down menu item
           items: appService.supportedLanguages.map((entry) {
             String? langString = langEnumToStr(entry);
 
-            // 生成新字符串并添加到列表
+            // Generate a new string and add it to the list
             return DropdownMenuItem<String>(
               alignment: AlignmentDirectional.centerStart,
               value: langString,
@@ -75,7 +74,7 @@ class _LangSelectMenuState extends State<LangSelectMenu> {
                     height: 12,
                   ),
                   const SizedBox(width: 5),
-                  // 语言名称
+                  // Language name
                   Text(
                     'app_service.lang.$langString'.tr,
                     style: const TextStyle(

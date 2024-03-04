@@ -1,12 +1,14 @@
 # App Service
 
+> 当前版本：v3.0.0
+>
+> **从此版本开始，App Service库依赖于下面几个模块，从3.0.0版本开始，它们已经不再内置：GetX, GetIt, and SharedPreferences。因此你需要在你的项目中自行安装。**
+
 App Service 是一个基于 [GetX](https://pub.dev/packages/get) 的应用服务，提供应用级别的管理服务，如主题管理、深色模式管理和本地化管理。
 
 ![Alt text](./example/readme_images/studio64_5duUzsvaJV.gif)
 
 ![Alt text](./example/readme_images/example_wrJkq7TYlE.gif)
-
-
 
 **作者:** [Jack Lee]()
 
@@ -16,15 +18,13 @@ App Service 是一个基于 [GetX](https://pub.dev/packages/get) 的应用服务
 
 ## 1. 入门指南
 
-你可以使用`flutter pub add`命令在你的项目中安装**App Service**的最新版本：
+你可以使用 `flutter pub add`命令在你的项目中安装**App Service**的最新版本：
 
 ```shell
-flutter pub add app_seivice
+flutter pub add app_seivice get get_it shared_preferences
 ```
 
-这将在项目的`pubspec.yaml`文件的 `dependencies`字段中添加`app_seivice`作为依赖，并隐式地运行一次`flutter pub get`。
-
-
+这将在项目的 `pubspec.yaml`文件的 `dependencies`字段中添加 `app_seivice`作为依赖，并隐式地运行一次 `flutter pub get`。
 
 ## 2. 在依赖注入中管理 App Service
 
@@ -34,93 +34,124 @@ flutter pub add app_seivice
 ```dart
 import 'package:app_service/app_service.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../singletons/app_service.dart';
+import '../singletons/prefs.dart';
 
 /// 基于 Get it 库的依赖注入
 class GetitInjection {
   static void init() {
     final GetIt i = GetIt.instance;
-    AppService appService = AppService(
-      supportedLanguages: const [
-        LanguageEnum.zh,
-        LanguageEnum.en,
-      ],
-      defaultLang: LanguageEnum.zh,
-    );
-    i.registerLazySingleton<AppService>(() => appService); 
+
+    i.registerSingletonAsync<SharedPreferences>(() => prefsInstance());
+
+    i.registerLazySingleton<AppService>(() => appService(i)); // 应用基础服务
   }
+}
+
+```
+
+下面是一个示例 `app_service.dart`的实现：
+
+```dart
+import 'package:app_service/app_service.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+AppService appService(GetIt i) {
+  return AppService(
+    i.get<SharedPreferences>(),
+    supportedLanguages: const [
+      LanguageEnum.zh,
+      LanguageEnum.zhHk,
+      LanguageEnum.zhMO,
+      LanguageEnum.zhTW,
+      LanguageEnum.en,
+      LanguageEnum.enUK,
+      LanguageEnum.enUS,
+      LanguageEnum.de,
+      LanguageEnum.ru,
+      LanguageEnum.uk,
+      LanguageEnum.be,
+      LanguageEnum.kk,
+      LanguageEnum.sr,
+      LanguageEnum.fr,
+      LanguageEnum.ja,
+      LanguageEnum.ko,
+      LanguageEnum.ar,
+    ],
+    defaultLang: LanguageEnum.zh,
+  );
 }
 ```
 
-
-
 ### 2.1 主题管理
-
-
 
 应用服务中的主题管理用于切换不同的颜色主题，每个主题包含两种模式，即深色模式和浅色模式。
 库中内置了由 [flex_color_scheme](https://pub.dev/packages/flex_color_scheme) 生成的许多主题数据。
 
 以下是内置主题表：
 
-| 主题名称（中文） | 亮色主题 | 暗色主题 |
-|------------------|--------------|-------------|
-| 琥珀蓝   | amberBlueLightTheme | amberBlueDarkTheme |
-| 青蓝    | aquaBlueLightTheme | aquaBlueDarkTheme |
-| 巴哈马特立尼达 | bahamaTrinidadLightTheme | bahamaTrinidadDarkTheme |
-| 巴罗萨     | barossaLightTheme | barossaDarkTheme |
-| 大石郁金香  | bigStoneTulipLightTheme | bigStoneTulipDarkTheme |
-| 蓝色的欢愉  | blueDelightLightTheme | blueDelightDarkTheme |
-| 蓝石青 | blueStoneTealLightTheme | blueStoneTealDarkTheme |
-| 蓝鲸    | blueWhaleLightTheme | blueWhaleDarkTheme |
-| 布卢曼      | blumineLightTheme | blumineDarkTheme |
-| 品牌蓝    | brandBlueLightTheme | brandBlueDarkTheme |
-| 棕橙  | brownOrangeLightTheme | brownOrangeDarkTheme |
-| 卡玛龙绿 | camaroneGreenLightTheme | camaroneGreenDarkTheme |
-| 丝绒和月亮  | damaskLunarLightTheme | damaskLunarDarkTheme |
-| 深蓝海  | deepBlueSeaLightTheme | deepBlueSeaDarkTheme |
-| 深紫   | deepPurpleLightTheme | deepPurpleDarkTheme |
-| 戴尔热那亚绿 | dellGenoaGreenLightTheme | dellGenoaGreenDarkTheme |
-| 乌木粘土    | ebonyClayLightTheme | ebonyClayDarkTheme |
-| 茄子紫   | eggplantPurpleLightTheme | eggplantPurpleDarkTheme |
-| 企业家蓝  | endeavourBlueLightTheme | endeavourBlueDarkTheme |
-| 浓缩咖啡奶油  | espressoCremaLightTheme | espressoCremaDarkTheme |
-| Flutter Dash  | flutterDashLightTheme | flutterDashDarkTheme |
-| 金黄日落   | goldSunsetLightTheme | goldSunsetDarkTheme |
-| 绿    | greensLightTheme | greensDarkTheme |
-| 绿色森林  | greenForestLightTheme | greenForestDarkTheme |
-| 绿色丛林  | greenJungleLightTheme | greenJungleDarkTheme |
-| 绿钱    | greenMoneyLightTheme | greenMoneyDarkTheme |
-| 灰色法律  | greyLawLightTheme | greyLawDarkTheme |
-| 嬉皮蓝   | hippieBlueLightTheme | hippieBlueDarkTheme |
-| 靛蓝之夜  | indigoNightLightTheme | indigoNightDarkTheme |
-| 靛蓝圣马力诺 | indigoSanMarinoLightTheme | indigoSanMarinoDarkTheme |
-| 唇膏粉   | lipstickPinkLightTheme | lipstickPinkDarkTheme |
-| 野鸭瓦伦西亚 | mallardValenciaLightTheme | mallardValenciaDarkTheme |
-| 芒果莫吉托  | mangoMojitoLightTheme | mangoMojitoDarkTheme |
-| material3 | material3LightTheme | material3DarkTheme |
+| 主题名称（中文） | 亮色主题                        | 暗色主题                       |
+| ---------------- | ------------------------------- | ------------------------------ |
+| 琥珀蓝           | amberBlueLightTheme             | amberBlueDarkTheme             |
+| 青蓝             | aquaBlueLightTheme              | aquaBlueDarkTheme              |
+| 巴哈马特立尼达   | bahamaTrinidadLightTheme        | bahamaTrinidadDarkTheme        |
+| 巴罗萨           | barossaLightTheme               | barossaDarkTheme               |
+| 大石郁金香       | bigStoneTulipLightTheme         | bigStoneTulipDarkTheme         |
+| 蓝色的欢愉       | blueDelightLightTheme           | blueDelightDarkTheme           |
+| 蓝石青           | blueStoneTealLightTheme         | blueStoneTealDarkTheme         |
+| 蓝鲸             | blueWhaleLightTheme             | blueWhaleDarkTheme             |
+| 布卢曼           | blumineLightTheme               | blumineDarkTheme               |
+| 品牌蓝           | brandBlueLightTheme             | brandBlueDarkTheme             |
+| 棕橙             | brownOrangeLightTheme           | brownOrangeDarkTheme           |
+| 卡玛龙绿         | camaroneGreenLightTheme         | camaroneGreenDarkTheme         |
+| 丝绒和月亮       | damaskLunarLightTheme           | damaskLunarDarkTheme           |
+| 深蓝海           | deepBlueSeaLightTheme           | deepBlueSeaDarkTheme           |
+| 深紫             | deepPurpleLightTheme            | deepPurpleDarkTheme            |
+| 戴尔热那亚绿     | dellGenoaGreenLightTheme        | dellGenoaGreenDarkTheme        |
+| 乌木粘土         | ebonyClayLightTheme             | ebonyClayDarkTheme             |
+| 茄子紫           | eggplantPurpleLightTheme        | eggplantPurpleDarkTheme        |
+| 企业家蓝         | endeavourBlueLightTheme         | endeavourBlueDarkTheme         |
+| 浓缩咖啡奶油     | espressoCremaLightTheme         | espressoCremaDarkTheme         |
+| Flutter Dash     | flutterDashLightTheme           | flutterDashDarkTheme           |
+| 金黄日落         | goldSunsetLightTheme            | goldSunsetDarkTheme            |
+| 绿               | greensLightTheme                | greensDarkTheme                |
+| 绿色森林         | greenForestLightTheme           | greenForestDarkTheme           |
+| 绿色丛林         | greenJungleLightTheme           | greenJungleDarkTheme           |
+| 绿钱             | greenMoneyLightTheme            | greenMoneyDarkTheme            |
+| 灰色法律         | greyLawLightTheme               | greyLawDarkTheme               |
+| 嬉皮蓝           | hippieBlueLightTheme            | hippieBlueDarkTheme            |
+| 靛蓝之夜         | indigoNightLightTheme           | indigoNightDarkTheme           |
+| 靛蓝圣马力诺     | indigoSanMarinoLightTheme       | indigoSanMarinoDarkTheme       |
+| 唇膏粉           | lipstickPinkLightTheme          | lipstickPinkDarkTheme          |
+| 野鸭瓦伦西亚     | mallardValenciaLightTheme       | mallardValenciaDarkTheme       |
+| 芒果莫吉托       | mangoMojitoLightTheme           | mangoMojitoDarkTheme           |
+| material3        | material3LightTheme             | material3DarkTheme             |
 | Material3 高对比 | material3HighContrastLightTheme | material3HighContrastDarkTheme |
-| Material3 紫色  | material3PurpleLightTheme | material3PurpleDarkTheme |
-| 午夜   | midnightLightTheme | midnightDarkTheme |
-| 清真寺青  | mosqueCyanLightTheme | mosqueCyanDarkTheme |
-| 哦曼迪红  | ohMandyRedLightTheme | ohMandyRedDarkTheme |
-| 外太空舞台 | outerSpaceLightTheme | outerSpaceDarkTheme |
-| 粉红樱花  | pinkSakuraLightTheme | pinkSakuraDarkTheme |
-| 紫褐   | purpleBrownLightTheme | purpleBrownDarkTheme |
-| 红蓝   | redBlueLightTheme | redBlueDarkTheme |
-| 红色龙卷风  | redTornadoLightTheme | redTornadoDarkTheme |
-| 红酒   | redWineLightTheme | redWineDarkTheme |
-| 红木   | rosewoodLightTheme | rosewoodDarkTheme |
-| 锈橙色  | rustDeepOrangeLightTheme | rustDeepOrangeDarkTheme |
-| 圣胡安蓝  | sanJuanBlueLightTheme | sanJuanBlueDarkTheme |
-| 鲨鱼橙   | sharkOrangeLightTheme | sharkOrangeDarkTheme |
-| 雷鸟红   | thunderbirdRedLightTheme | thunderbirdRedDarkTheme |
-| 威尔敦绿  | verdunGreenLightTheme | verdunGreenDarkTheme |
-| 威尔敦酸橙 | verdunLimeLightTheme | verdunLimeDarkTheme |
-| 尼古拉斯烧焦 | vesuviusBurnedLightTheme | vesuviusBurnedDarkTheme |
-| 柳树芥末   | willowWasabiLightTheme | willowWasabiDarkTheme |
-| 育空金黄 | yukonGoldYellowLightTheme | yukonGoldYellowDarkTheme |
+| Material3 紫色   | material3PurpleLightTheme       | material3PurpleDarkTheme       |
+| 午夜             | midnightLightTheme              | midnightDarkTheme              |
+| 清真寺青         | mosqueCyanLightTheme            | mosqueCyanDarkTheme            |
+| 哦曼迪红         | ohMandyRedLightTheme            | ohMandyRedDarkTheme            |
+| 外太空舞台       | outerSpaceLightTheme            | outerSpaceDarkTheme            |
+| 粉红樱花         | pinkSakuraLightTheme            | pinkSakuraDarkTheme            |
+| 紫褐             | purpleBrownLightTheme           | purpleBrownDarkTheme           |
+| 红蓝             | redBlueLightTheme               | redBlueDarkTheme               |
+| 红色龙卷风       | redTornadoLightTheme            | redTornadoDarkTheme            |
+| 红酒             | redWineLightTheme               | redWineDarkTheme               |
+| 红木             | rosewoodLightTheme              | rosewoodDarkTheme              |
+| 锈橙色           | rustDeepOrangeLightTheme        | rustDeepOrangeDarkTheme        |
+| 圣胡安蓝         | sanJuanBlueLightTheme           | sanJuanBlueDarkTheme           |
+| 鲨鱼橙           | sharkOrangeLightTheme           | sharkOrangeDarkTheme           |
+| 雷鸟红           | thunderbirdRedLightTheme        | thunderbirdRedDarkTheme        |
+| 威尔敦绿         | verdunGreenLightTheme           | verdunGreenDarkTheme           |
+| 威尔敦酸橙       | verdunLimeLightTheme            | verdunLimeDarkTheme            |
+| 尼古拉斯烧焦     | vesuviusBurnedLightTheme        | vesuviusBurnedDarkTheme        |
+| 柳树芥末         | willowWasabiLightTheme          | willowWasabiDarkTheme          |
+| 育空金黄         | yukonGoldYellowLightTheme       | yukonGoldYellowDarkTheme       |
 
-要切换主题，你可以使用**AppService**实例对象的`setColorTheme`对主题进行切换，该方法的类型签名为：
+要切换主题，你可以使用**AppService**实例对象的 `setColorTheme`对主题进行切换，该方法的类型签名为：
 
 ```dart
 void setColorTheme(ColorThemesEnum themeEnum)
@@ -136,6 +167,12 @@ final AppService appService = GetIt.instance.get<AppService>();
 appService.setColorTheme(ColorThemesEnum.bigStoneTulip);
 ```
 
+
+
+#### ThemeModal
+
+
+
 你可以使用**ThemeModal**模态框组件来为用户提供更加直观的主题选择，例如：
 
 ```dart
@@ -150,7 +187,31 @@ const ThemeModal(),
 
 ![chrome_oPKRHK21u2](./example/readme_images/chrome_oPKRHK21u2.png)
 
-每一个主题将以其`primaryColor`色的圆形显示在该模态框中，被选中的主题对应的圆形有一个“√”号。
+每一个主题将以其 `primaryColor`色的圆形显示在该模态框中，被选中的主题对应的圆形有一个“√”号。
+
+从 `3.0.0`版本开始，你可以在 **ThemeModal** 组件中，通过 `themes`参数指定可用的主题，如果不指定或者指定为空数组，则默认使用所有内置主题。
+
+
+#### showThemeModal
+
+从 版本开始，新增了该方法。  `showThemeModal`是一个函数，它比起 **ThemeModal 来，使用场景更加灵活。例如：**
+
+```dart
+// 某一个组件的onTap参数
+onTap: (_) {
+  showThemeModal(
+    context,
+    themes: [
+      ColorThemesEnum.amberBlue,
+      ColorThemesEnum.brownOrange,
+      ColorThemesEnum.dellGenoaGreen,
+      ColorThemesEnum.camaroneGreen,
+    ],
+  );
+},
+```
+
+
 
 ### 2.2 Dark Mode Management
 
@@ -163,12 +224,11 @@ final AppService appService = GetIt.instance.get<AppService>();
 appService.toggleDarkMode()
 ```
 
-另外，实例对象`appService`上，用于设置暗黑/光亮的方法还有`setDarkMode`和`setLightMode`。
+另外，实例对象 `appService`上，用于设置暗黑/光亮的方法还有 `setDarkMode`和 `setLightMode`。
 
 **DarkModeSwitch** 是一个可以直接使用的暗黑模式切换开关，你可以直接在代码中使用它。外观上，它看起来就像这样：
 
 ![chrome_kVi5w711Re](./example/readme_images/chrome_kVi5w711Re.gif)
-
 
 ### 3. Localization
 
@@ -180,7 +240,7 @@ Messages Messages(
 )
 ```
 
-你应该在顶级组件 **GetMaterialApp** 中通过`translations`参数传入它，并且必须在列表中包含一个`AppServiceMessages().keys`，这是一份用于**App Service**的翻译文件。例如：
+你应该在顶级组件 **GetMaterialApp** 中通过 `translations`参数传入它，并且必须在列表中包含一个 `AppServiceMessages().keys`，这是一份用于**App Service**的翻译文件。例如：
 
 ```dart
 GetMaterialApp(
@@ -217,9 +277,9 @@ class HomeMessages extends Translations {
 }
 ```
 
-当然，依据项目的需要你可以定义更多这样的翻译文件，并在**Messages**的`translations`列表中加载。
+当然，依据项目的需要你可以定义更多这样的翻译文件，并在**Messages**的 `translations`列表中加载。
 
-实现国际化时，定义支持的多种语言是通过构造**AppService**的`supportedLanguages`参数指定的，它接受由多个**LanguageEnum** 枚举值所构成的列表。**AppService**还需要指定一个默认的语言。例如：
+实现国际化时，定义支持的多种语言是通过构造**AppService**的 `supportedLanguages`参数指定的，它接受由多个**LanguageEnum** 枚举值所构成的列表。**AppService**还需要指定一个默认的语言。例如：
 
 ```dart
 AppService appService = AppService(
@@ -232,13 +292,13 @@ AppService appService = AppService(
 );
 ```
 
-其中，`defaultLang`的默认值为 *LanguageEnum.en*。这里的定义需要与顶层组件中的`locale`参数对应。
+其中，`defaultLang`的默认值为 *LanguageEnum.en*。这里的定义需要与顶层组件中的 `locale`参数对应。
 
-应用标题是不能使用**GetX**提供的`.tr`来实现翻译的，因为在顶层组件初始化完成之前该方法不可用。这在 **Web** 端的本地化切换效果尤为明显：
+应用标题是不能使用**GetX**提供的 `.tr`来实现翻译的，因为在顶层组件初始化完成之前该方法不可用。这在 **Web** 端的本地化切换效果尤为明显：
 
 ![chrome_0ywly93CSl](./example/readme_images/chrome_0ywly93CSl.gif)
 
-为了实现这种动态切换，你可以像我一样使用一个`switch`语句，下面是一个示例：
+为了实现这种动态切换，你可以像我一样使用一个 `switch`语句，下面是一个示例：
 
 ```dart
 import 'package:app_service/app_service.dart';
@@ -266,7 +326,7 @@ GetMaterialApp(
 
 ```
 
-要切换语言，可以使用**AppService**实例对象上的`updateLocale`方法，该方法的类型签名为：
+要切换语言，可以使用**AppService**实例对象上的 `updateLocale`方法，该方法的类型签名为：
 
 ```dart
 void updateLocale(LanguageEnum newLanguage)
@@ -302,13 +362,15 @@ const Wen()
 
 你可以自定义显示的图标，以及图标的大小，并且它可以是任何组件。
 
+如果你想在设置页中选择语言，也可以使用考虑使用 **LanguageSelectPage 或 CupertinoLanguageSelectPage 组件，这个组件是一个语言选择页面，你可以从一个设置项中打开它：**
 
+![1709576847626](image/README_CN/1709576847626.gif)
 
 ## 3. Initialization
 
-初始化用于从持久化的数据中读取用户上一次存储的数据。在**AppService** 实例上提供了一个`init`方法用于完成其自身的相关初始化工作。
+初始化用于从持久化的数据中读取用户上一次存储的数据。在**AppService** 实例上提供了一个 `init`方法用于完成其自身的相关初始化工作。
 
-在你的应用中，可以使用多种方式完成初始化，例如，下面的代码展示了通过顶层组件**GetMaterialApp**的`onInit`方法实现初始化：
+在你的应用中，可以使用多种方式完成初始化，例如，下面的代码展示了通过顶层组件**GetMaterialApp**的 `onInit`方法实现初始化：
 
 ```dart
 // ...
@@ -340,42 +402,31 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-
-
-
-
 ## 4. Web App
 
 在 Web App 中，当前的 [sharedPreferencesWeb](https://pub.dev/packages/shared_preferences_web) 库通过 [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 实现键值对存储。如果改变 AppService 所管理的相关状态，这些变化将直接反映在浏览器的 localStorage 中：
 
 ![Alt text](./example/readme_images/chrome_aQ4vYWZSYM.gif)
 
-
-
-
-
 ## 5. Example App
 
 你可以在[https://github.com/jacklee1995/flutter_app_service/tree/master/example](https://github.com/jacklee1995/flutter_app_service/tree/master/example)中找到 **App Service** 的示例应用。
 
-
-
-
-
 ## 6. Appendix
 
-### About version
+### 关于版本
 
-各个版本所依赖的 **GetX** 推荐版本如下表所示：
+App Service库依赖于下面几个模块，从3.0.0版本开始，它们已经不再内置：GetX, GetIt, and SharedPreferences。因此你需要在你的项目中自行安装。
 
-| App Service | GetX |
-| :---------- | :--- |
-| 1.0       | 4.6  |
-| 2.0       | 4.6  |
+你可以安装喜欢的版本，在大版本范围内的GetX、GetIt、SharedPpreferences都可以使用：
+
+| 库                 | 推荐主版本 |
+| :----------------- | :--------- |
+| GetX               | 4.6        |
+| GetIt              | 4.6        |
+| SharedPpreferences | 2.2        |
 
 版本相差不大都可以通用。
-
-
 
 ### Enums
 
@@ -479,8 +530,6 @@ enum LanguageEnum {
   zu, // 祖鲁语
 }
 ```
-
-
 
 #### ColorThemesEnum
 
@@ -654,8 +703,6 @@ enum ColorThemesEnum {
 }
 ```
 
-
-
 #### 工具
 
 ##### 语言相关
@@ -665,21 +712,15 @@ enum ColorThemesEnum {
 String? langEnumToStr(LanguageEnum lang)
 ```
 
-
-
 ```dart
 /// 将语言标志转换为相应的国家标志
 String getCountryCode(String item)
 ```
 
-
-
 ```dart
 /// 将语言字符串转换为相应的语言枚举
 LanguageEnum? strToLangEnum(String langStr)
 ```
-
-
 
 ##### 主题相关
 
@@ -690,26 +731,15 @@ LanguageEnum? strToLangEnum(String langStr)
 ThemeData getThemeDataByName(String themeName, bool isDarkMode)
 ```
 
-
-
 ```dart
 /// 根据枚举获取主题数据 (ThemeData)。
 ThemeData getThemeDataByEnum(ColorThemesEnum themeEnum, bool isDarkMode)
 ```
 
-
-
-
 ## 7. 报告错误
 
 你可以在 Github 上报告错误：https://github.com/jacklee1995/flutter_app_service/issues
 
-
-
 ## 8. 许可
 
-
 本项目根据MIT许可证许可 - 有关详细信息，请参阅[LICENSE](https://github.com/jacklee1995/flutter_app_service/blob/master/LICENSE)文件。
-
-
-

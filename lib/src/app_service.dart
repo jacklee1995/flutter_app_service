@@ -7,7 +7,10 @@ import 'enums/themes_enum.dart';
 import 'utils/lang.dart';
 import 'utils/theme.dart';
 
-class AppService extends GetxService {
+class AppService extends GetxController {
+  /// SharedPreferences instance
+  final SharedPreferences _prefs;
+
   /// All supported languages should be reflected here.
   final List<LanguageEnum> supportedLanguages;
 
@@ -16,7 +19,8 @@ class AppService extends GetxService {
       ColorThemesEnum.blueDelight.obs; // Initialize to blueDelight theme
   final Rx<LanguageEnum> language = LanguageEnum.enUS.obs;
 
-  AppService({
+  AppService(
+    this._prefs, {
     this.supportedLanguages = const [
       LanguageEnum.zh,
       LanguageEnum.en,
@@ -97,10 +101,8 @@ class AppService extends GetxService {
 
   // Load status from SharedPreferences
   Future<void> init() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     // Load theme
-    String? themeEnumString = prefs.getString('themeEnum');
+    String? themeEnumString = _prefs.getString('themeEnum');
     if (themeEnumString != null) {
       ColorThemesEnum themeEnum = ColorThemesEnum.values
           .firstWhere((e) => e.toString() == themeEnumString);
@@ -109,7 +111,7 @@ class AppService extends GetxService {
     }
 
     // Load dark mode state
-    bool? isDarkModeValue = prefs.getBool('isDarkMode');
+    bool? isDarkModeValue = _prefs.getBool('isDarkMode');
     if (isDarkModeValue != null) {
       isDarkMode.value = isDarkModeValue;
       // Update color theme
@@ -117,7 +119,7 @@ class AppService extends GetxService {
     }
 
     // Loading language
-    String? langEnumString = prefs.getString('langEnum');
+    String? langEnumString = _prefs.getString('langEnum');
     if (langEnumString != null) {
       LanguageEnum langEnum =
           LanguageEnum.values.firstWhere((e) => e.toString() == langEnumString);
@@ -128,15 +130,13 @@ class AppService extends GetxService {
 
   // Save state to SharedPreferences.
   Future<void> saveState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     // Save theme
-    prefs.setString('themeEnum', _themesEnum.value.toString());
+    _prefs.setString('themeEnum', _themesEnum.value.toString());
 
     // Save dark mode state
-    prefs.setBool('isDarkMode', isDarkMode.value);
+    _prefs.setBool('isDarkMode', isDarkMode.value);
 
     // Preservation language
-    prefs.setString('langEnum', language.value.toString());
+    _prefs.setString('langEnum', language.value.toString());
   }
 }

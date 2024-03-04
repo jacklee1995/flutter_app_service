@@ -12,6 +12,7 @@ dependencies:
     path: ../
   get: ^4.6.6
   get_it: ^7.6.7
+  shared_preferences: ^2.2.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
