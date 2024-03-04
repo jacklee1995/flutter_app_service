@@ -360,7 +360,7 @@ You can customize the displayed icon, as well as the size of the icon, and it ca
 
 If you want to choose a language in the settings page, you can consider using the **LanguageSelectPage or CupertinoLanguageSelectPage** widgets. Those widgetsis a language selection page that you can open from a settings item.
 
-![1709576847626](https://file+.vscode-resource.vscode-cdn.net/e%3A/Desktop/xiaoku_player/auth_app/flutter_app_service/image/README_CN/1709576847626.gif)
+![https://github.com/jacklee1995/flutter_app_service/blob/master/image/README_CN/1709576847626.gif]()![1709576847626](https://github.com/jacklee1995/flutter_app_service/blob/master/image/README_CN/1709576847626.gif)
 
 ## 4. About Initialization
 

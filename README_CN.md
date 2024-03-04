@@ -213,6 +213,7 @@ onTap: (_) {
 
 
 
+
 ### 2.2 Dark Mode Management
 
 在 `App Service` 库中，Dark/Light 模式是同一主题下的两个子状态，本质上是定义了两组对应的主题数据。你可以直接在AppSeivice的单例中，通过 `toggleDarkMode` 方法切换暗黑模式：
