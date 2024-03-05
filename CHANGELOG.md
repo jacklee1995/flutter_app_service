@@ -2,7 +2,7 @@
 
 ### breake changes
 
-The App Service library depends on the following modules. Starting from version 3.0.0, they are no longer built-in: GetX, GetIt, and SharedPreferences. Therefore, you need to install them manually in your projec.
+Starting from version `3.0.0`, AppService no longer instantiates SharedPreferences internally. Therefore, when creating an instance of AppService, you should pass the pre-created SharedPreferences as a required parameter to the constructor.
 
 ### changes
 

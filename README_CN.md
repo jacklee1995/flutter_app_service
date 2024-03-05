@@ -1,8 +1,6 @@
 # App Service
 
 > 当前版本：v3.0.0
->
-> **从此版本开始，App Service库依赖于下面几个模块，从3.0.0版本开始，它们已经不再内置：GetX, GetIt, and SharedPreferences。因此你需要在你的项目中自行安装。**
 
 App Service 是一个基于 [GetX](https://pub.dev/packages/get) 的应用服务，提供应用级别的管理服务，如主题管理、深色模式管理和本地化管理。
 
@@ -10,7 +8,7 @@ App Service 是一个基于 [GetX](https://pub.dev/packages/get) 的应用服务
 
 ![Alt text](./example/readme_images/example_wrJkq7TYlE.gif)
 
-**作者:** [Jack Lee]()
+**作者:** [李俊才](http://thispage.tech)
 
 **邮箱:** [291148484@163.com](291148484@163.com)
 
@@ -21,7 +19,7 @@ App Service 是一个基于 [GetX](https://pub.dev/packages/get) 的应用服务
 你可以使用 `flutter pub add`命令在你的项目中安装**App Service**的最新版本：
 
 ```shell
-flutter pub add app_seivice get get_it shared_preferences
+flutter pub add app_seivice
 ```
 
 这将在项目的 `pubspec.yaml`文件的 `dependencies`字段中添加 `app_seivice`作为依赖，并隐式地运行一次 `flutter pub get`。
@@ -39,11 +37,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../singletons/app_service.dart';
 import '../singletons/prefs.dart';
 
-/// 基于 Get it 库的依赖注入
+/// 此示例为基于 GetIt 依赖注入
 class GetitInjection {
   static void init() {
     final GetIt i = GetIt.instance;
-
+    // 这里你是一个注册shared_preferences的示意
     i.registerSingletonAsync<SharedPreferences>(() => prefsInstance());
 
     i.registerLazySingleton<AppService>(() => appService(i)); // 应用基础服务
@@ -61,6 +59,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 AppService appService(GetIt i) {
   return AppService(
+    // 从版本`3.0.0`开始，AppService内部不再实例化SharedPreferences，因此在创建AppService实例时你应该提前将创建好的SharedPreferences作为必须参数传入AppService的构造器。
     i.get<SharedPreferences>(),
     supportedLanguages: const [
       LanguageEnum.zh,
@@ -167,11 +166,7 @@ final AppService appService = GetIt.instance.get<AppService>();
 appService.setColorTheme(ColorThemesEnum.bigStoneTulip);
 ```
 
-
-
 #### ThemeModal
-
-
 
 你可以使用**ThemeModal**模态框组件来为用户提供更加直观的主题选择，例如：
 
@@ -190,7 +185,6 @@ const ThemeModal(),
 每一个主题将以其 `primaryColor`色的圆形显示在该模态框中，被选中的主题对应的圆形有一个“√”号。
 
 从 `3.0.0`版本开始，你可以在 **ThemeModal** 组件中，通过 `themes`参数指定可用的主题，如果不指定或者指定为空数组，则默认使用所有内置主题。
-
 
 #### showThemeModal
 
@@ -211,9 +205,6 @@ onTap: (_) {
 },
 ```
 
-
-
-
 ### 2.2 Dark Mode Management
 
 在 `App Service` 库中，Dark/Light 模式是同一主题下的两个子状态，本质上是定义了两组对应的主题数据。你可以直接在AppSeivice的单例中，通过 `toggleDarkMode` 方法切换暗黑模式：
@@ -231,7 +222,9 @@ appService.toggleDarkMode()
 
 ![chrome_kVi5w711Re](./example/readme_images/chrome_kVi5w711Re.gif)
 
-### 3. Localization
+## 3. Localization
+
+### 3.1 Messages
 
 **Messages**是一个翻译容器，它接受一个列表，可以用来包含多个翻译。其类型签名为：
 
@@ -339,7 +332,11 @@ void updateLocale(LanguageEnum newLanguage)
 appService.updateLocale(LanguageEnum.zh);
 ```
 
-有两个组件可以用于显示一个语言选择菜单以切换本地语言，分别是**LangSelectMenu**和**Wen**。
+### 3.2 切换本地语言
+
+有两个**Widget**可以用于显示一个语言选择菜单以切换本地语言，分别是**LangSelectMenu**和**Wen**。
+
+#### 3.2.1 LangSelectMenu
 
 其中，**LangSelectMenu**是一个普通的方形下拉按钮，例如：
 
@@ -362,6 +359,8 @@ const Wen()
 ![C844qQlH1K](./example/readme_images/C844qQlH1K.png)
 
 你可以自定义显示的图标，以及图标的大小，并且它可以是任何组件。
+
+#### LanguageSelectPage & CupertinoLanguageSelectPage
 
 如果你想在设置页中选择语言，也可以使用考虑使用 **LanguageSelectPage 或 CupertinoLanguageSelectPage 组件，这个组件是一个语言选择页面，你可以从一个设置项中打开它：**
 
@@ -417,15 +416,14 @@ class MyApp extends StatelessWidget {
 
 ### 关于版本
 
-App Service库依赖于下面几个模块，从3.0.0版本开始，它们已经不再内置：GetX, GetIt, and SharedPreferences。因此你需要在你的项目中自行安装。
+App Service库依赖于下面几个模块，从3.0.0版本开始，它们已经不再内置：GetX, GetIt。因此你需要在你的项目中自行安装。
 
-你可以安装喜欢的版本，在大版本范围内的GetX、GetIt、SharedPpreferences都可以使用：
+你可以安装喜欢的版本，在大版本范围内的GetX、GetIt都可以使用：
 
-| 库                 | 推荐主版本 |
-| :----------------- | :--------- |
-| GetX               | 4.6        |
-| GetIt              | 4.6        |
-| SharedPpreferences | 2.2        |
+| 库    | 推荐主版本 |
+| :---- | :--------- |
+| GetX  | 4.6        |
+| GetIt | 4.6        |
 
 版本相差不大都可以通用。
 

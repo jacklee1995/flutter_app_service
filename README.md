@@ -1,8 +1,6 @@
 # App Service
 
 > Current Version: v3.0.0
->
-> The App Service library depends on the following modules. Starting from version 3.0.0, they are no longer built-in: GetX, GetIt, and SharedPreferences. Therefore, you need to install them manually in your projec.
 
 [中文文档](https://github.com/jacklee1995/flutter_app_service/blob/master/README_CN.md)
 
@@ -25,7 +23,7 @@ An application service based on [GetX](https://pub.dev/packages/get), which prov
 You can install the latest version of **App Service** in your project using the `flutter pub add` command:
 
 ```shell
-flutter pub add app_seivice get get_it shared_preferences
+flutter pub add app_seivice
 ```
 
 This will add `app_seivice` as a dependency in the `dependencies` section of your project's `pubspec.yaml` file and implicitly run `flutter pub get` once.
@@ -64,6 +62,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 AppService appService(GetIt i) {
   return AppService(
+    // Starting from version `3.0.0`, AppService no longer instantiates SharedPreferences internally. Therefore, when creating an instance of AppService, you should pass the pre-created SharedPreferences as a required parameter to the constructor.
     i.get<SharedPreferences>(),
     supportedLanguages: const [
       LanguageEnum.zh,
@@ -228,6 +227,8 @@ Additionally, on the instance object `appService`, there are methods `setDarkMod
 
 ## 3. Localization
 
+### 3.1 Message
+
 **Messages** is a translation container that accepts a list, which can contain multiple translations. Its type signature is:
 
 ```dart
@@ -334,7 +335,11 @@ For example:
 appService.updateLocale(LanguageEnum.zh);
 ```
 
+### 3.2 Switching local language
+
 There are two components available for displaying a language selection menu to switch the local language: **LangSelectMenu** and **Wen**.
+
+#### 3.2.1 LangSelectMenu
 
 **LangSelectMenu** is a regular square dropdown button, for example:
 
@@ -345,6 +350,8 @@ const LangSelectMenu(),
 It looks like this:
 
 ![chrome_WBdxDZiVCG](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_WBdxDZiVCG.gif)
+
+#### 3.2.2 Wen
 
 **Wen** is also a button with a pop-up menu, but it is displayed with an icon, usually in the **Header**:
 
@@ -357,6 +364,8 @@ It looks like this:
 ![C844qQlH1K](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/C844qQlH1K.png)
 
 You can customize the displayed icon, as well as the size of the icon, and it can be any widget.
+
+#### 3.2.3 LanguageSelectPage & CupertinoLanguageSelectPage
 
 If you want to choose a language in the settings page, you can consider using the **LanguageSelectPage or CupertinoLanguageSelectPage** widgets. Those widgetsis a language selection page that you can open from a settings item.
 
@@ -410,15 +419,14 @@ In the Web App, the current [sharedPreferencesWeb](https://pub.dev/packages/shar
 
 App Service
 
-The App Service library depends on the following modules. Starting from version `3.0.0`, they are no longer built-in: GetX, GetIt, and SharedPreferences. Therefore, you need to install them manually in your project.
+The App Service library depends on the following modules. Starting from version `3.0.0`, they are no longer built-in: GetX, GetIt. Therefore, you need to install them manually in your project.
 
-You can install your preferred version, within the major version range, for GetX, GetIt, and SharedPreferences:
+You can install your preferred version, within the major version range, for GetX, GetIt:
 
-| Library           | Recommended Major Version |
-| :---------------- | :------------------------ |
-| GetX              | 4.6                       |
-| GetIt             | 4.6                       |
-| SharedPreferences | 2.2                       |
+| Library | Recommended Major Version |
+| :------ | :------------------------ |
+| GetX    | 4.6                       |
+| GetIt   | 4.6                       |
 
 Versions within a small difference are generally compatible.
 

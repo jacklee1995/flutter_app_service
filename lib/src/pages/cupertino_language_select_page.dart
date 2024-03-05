@@ -6,13 +6,6 @@ import 'package:get_it/get_it.dart';
 import '../../app_service.dart';
 import '../utils/lang.dart';
 
-/// Make sure you have added the flutter_settings_ui dependency in your pubspec.yaml file.
-/// ```yaml
-/// dependencies:
-///   flutter:
-///     sdk: flutter
-///   flutter_settings_ui: ^latest_version
-/// ```
 class CupertinoLanguageSelectPage extends StatefulWidget {
   const CupertinoLanguageSelectPage({super.key});
 
@@ -61,8 +54,7 @@ class _CupertinoLanguageSelectPageState
                       : null,
                   onPressed: (BuildContext context) {
                     appService.updateLocale(langEnum);
-                    setState(
-                        () {}); // Refresh the page to show the selected language
+                    setState(() {});
                   },
                 );
               }).toList(),
