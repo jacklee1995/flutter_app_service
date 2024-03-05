@@ -364,7 +364,7 @@ const Wen()
 
 如果你想在设置页中选择语言，也可以使用考虑使用 **LanguageSelectPage 或 CupertinoLanguageSelectPage 组件，这个组件是一个语言选择页面，你可以从一个设置项中打开它：**
 
-![1709576847626](image/README_CN/1709576847626.gif)
+![1709576847626](./example/readme_images/1709576847626.gif)
 
 ## 3. Initialization
 
