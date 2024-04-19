@@ -1,0 +1,32 @@
+name: app_service
+description: App service based on GetX library.
+
+version: 3.0.1
+auth:
+  name: Jcak Lee
+  email: 291148484@163.com
+  home: http://thispage.tech
+maintainer: Jcak Lee
+repository: https://github.com/jacklee1995/flutter_app_service
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flex_color_scheme: ^7.3.1
+  flutter_svg: ^2.0.9
+  dash_flags: ^0.1.1
+  shared_preferences: ^2.2.2
+  get: ^4.6.6
+  flutter_settings_ui: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true

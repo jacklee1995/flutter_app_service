@@ -1,0 +1,225 @@
+import 'package:flutter/material.dart';
+
+import '../themes/amber_blue.dart';
+import '../themes/aqua_blue.dart';
+import '../themes/bahama_trinidad.dart';
+import '../themes/barossa.dart';
+import '../themes/big_stone_tulip.dart';
+import '../themes/blue_delight.dart';
+import '../themes/blue_stone_teal.dart';
+import '../themes/blue_whale.dart';
+import '../themes/blumine.dart';
+import '../themes/brand_blue.dart';
+import '../themes/brown_orange.dart';
+import '../themes/camarone_green.dart';
+import '../themes/damask_lunar.dart';
+import '../themes/deep_blue_sea.dart';
+import '../themes/deep_purple.dart';
+import '../themes/dell_genoa_green.dart';
+import '../themes/ebony_clay.dart';
+import '../themes/eggplant_purple.dart';
+import '../themes/endeavour_blue.dart';
+import '../themes/espresso_crema.dart';
+import '../themes/flutter_dash.dart';
+import '../themes/gold_sunset.dart';
+import '../themes/green_forest.dart';
+import '../themes/green_jungle.dart';
+import '../themes/green_money.dart';
+import '../themes/greens.dart';
+import '../themes/grey_law.dart';
+import '../themes/hippie_blue.dart';
+import '../themes/indigo_night.dart';
+import '../themes/indigo_san_marino.dart';
+import '../themes/lipstick_pink.dart';
+import '../themes/mallard_valencia.dart';
+import '../themes/mango_mojito.dart';
+import '../themes/material3.dart';
+import '../themes/material3_high_contrast.dart';
+import '../themes/material3_purple.dart';
+import '../themes/midnight.dart';
+import '../themes/mosque_cyan.dart';
+import '../themes/oh_mandy_red.dart';
+import '../themes/outer_space_stage.dart';
+import '../themes/pink_sakura.dart';
+import '../themes/purple_brown.dart';
+import '../themes/red_blue.dart';
+import '../themes/red_tornado.dart';
+import '../themes/red_wine.dart';
+import '../themes/rosewood.dart';
+import '../themes/rust_deep_orange.dart';
+import '../themes/san_juan_blue.dart';
+import '../themes/shark_orange.dart';
+import '../themes/thunderbird_red.dart';
+import '../themes/verdun_green.dart';
+import '../themes/verdun_lime.dart';
+import '../themes/vesuvius_burned.dart';
+import '../themes/willow_wasabi.dart';
+import '../themes/yukon_gold_yellow.dart';
+
+final Map<String, ThemeData> themesMap = <String, ThemeData>{
+  // 琥珀蓝
+  'amberBlueDark': amberBlueDarkTheme,
+  'amberBlueLight': amberBlueLightTheme,
+  // 青蓝
+  'aquaBlueDark': aquaBlueDarkTheme,
+  'aquaBlueLight': aquaBlueLightTheme,
+  // 巴哈马特立尼达
+  'bahamaTrinidadDark': bahamaTrinidadDarkTheme,
+  'bahamaTrinidadLight': bahamaTrinidadLightTheme,
+  // 巴罗萨
+  'barossaDark': barossaDarkTheme,
+  'barossaLight': barossaLightTheme,
+  // 大石郁金香
+  'bigStoneTulipDark': bigStoneTulipDarkTheme,
+  'bigStoneTulipLight': bigStoneTulipLightTheme,
+  // 蓝色的欢愉
+  'blueDelightDark': blueDelightDarkTheme,
+  'blueDelightLight': blueDelightLightTheme,
+  // 蓝石青
+  'blueStoneTealDark': blueStoneTealDarkTheme,
+  'blueStoneTealLight': blueStoneTealLightTheme,
+  // 蓝鲸
+  'blueWhaleDark': blueWhaleDarkTheme,
+  'blueWhaleLight': blueWhaleLightTheme,
+  // 布卢曼
+  'blumineDark': blumineDarkTheme,
+  'blumineLight': blumineLightTheme,
+  // 品牌蓝
+  'brandBlueDark': brandBlueDarkTheme,
+  'brandBlueLight': brandBlueLightTheme,
+  // 棕橙
+  'brownOrangeDark': brownOrangeDarkTheme,
+  'brownOrangeLight': brownOrangeLightTheme,
+  // 卡玛龙绿
+  'camaroneGreenDark': camaroneGreenDarkTheme,
+  'camaroneGreenLight': camaroneGreenLightTheme,
+  // 丝绒和月亮
+  'damaskLunarDark': damaskLunarDarkTheme,
+  'damaskLunarLight': damaskLunarLightTheme,
+  // 深蓝海
+  'deepBlueSeaDark': deepBlueSeaDarkTheme,
+  'deepBlueSeaLight': deepBlueSeaLightTheme,
+  // 深紫
+  'deepPurpleDark': deepPurpleDarkTheme,
+  'deepPurpleLight': deepPurpleLightTheme,
+  // 戴尔热那亚绿
+  'dellGenoaGreenDark': dellGenoaGreenDarkTheme,
+  'dellGenoaGreenLight': dellGenoaGreenLightTheme,
+  // 乌木粘土
+  'ebonyClayDark': ebonyClayDarkTheme,
+  'ebonyClayLight': ebonyClayLightTheme,
+  // 茄子紫
+  'eggplantPurpleDark': eggplantPurpleDarkTheme,
+  'eggplantPurpleLight': eggplantPurpleLightTheme,
+  // 企业家蓝
+  'endeavourBlueDark': endeavourBlueDarkTheme,
+  'endeavourBlueLight': endeavourBlueLightTheme,
+  // 浓缩咖啡奶油
+  'espressoCremaDark': espressoCremaDarkTheme,
+  'espressoCremaLight': espressoCremaLightTheme,
+  // Flutter Dash
+  'flutterDashDark': flutterDashDarkTheme,
+  'flutterDashLight': flutterDashLightTheme,
+  // 金黄日落
+  'goldSunsetDark': goldSunsetDarkTheme,
+  'goldSunsetLight': goldSunsetLightTheme,
+  // 绿
+  'greensDark': greensDarkTheme,
+  'greensLight': greensLightTheme,
+  // 绿色森林
+  'greenForestDark': greenForestDarkTheme,
+  'greenForestLight': greenForestLightTheme,
+  // 绿色丛林
+  'greenJungleDark': greenJungleDarkTheme,
+  'greenJungleLight': greenJungleLightTheme,
+  // 绿钱
+  'greenMoneyDark': greenMoneyDarkTheme,
+  'greenMoneyLight': greenMoneyLightTheme,
+  // 灰色法律
+  'greyLawDark': greyLawDarkTheme,
+  'greyLawLight': greyLawLightTheme,
+  // 嬉皮蓝
+  'hippieBlueDark': hippieBlueDarkTheme,
+  'hippieBlueLight': hippieBlueLightTheme,
+  // 靛蓝之夜
+  'indigoNightDark': indigoNightDarkTheme,
+  'indigoNightLight': indigoNightLightTheme,
+  // 靛蓝圣马力诺
+  'indigoSanMarinoDark': indigoSanMarinoDarkTheme,
+  'indigoSanMarinoLight': indigoSanMarinoLightTheme,
+  // 唇膏粉
+  'lipstickPinkDark': lipstickPinkDarkTheme,
+  'lipstickPinkLight': lipstickPinkLightTheme,
+  // 野鸭瓦伦西亚
+  'mallardValenciaDark': mallardValenciaDarkTheme,
+  'mallardValenciaLight': mallardValenciaLightTheme,
+  // 芒果莫吉托
+  'mangoMojitoDark': mangoMojitoDarkTheme,
+  'mangoMojitoLight': mangoMojitoLightTheme,
+  // material3
+  'material3Dark': material3DarkTheme,
+  'material3Light': material3LightTheme,
+  // Material3 高对比
+  'material3HighContrastDark': material3HighContrastDarkTheme,
+  'material3HighContrastLight': material3HighContrastLightTheme,
+  // Material3 紫色
+  'material3PurpleDark': material3PurpleDarkTheme,
+  'material3PurpleLight': material3PurpleLightTheme,
+  // 午夜
+  'midnightDark': midnightDarkTheme,
+  'midnightLight': midnightLightTheme,
+  // 清真寺青
+  'mosqueCyanDark': mosqueCyanDarkTheme,
+  'mosqueCyanLight': mosqueCyanLightTheme,
+  // 哦曼迪红
+  'ohMandyRedDark': ohMandyRedDarkTheme,
+  'ohMandyRedLight': ohMandyRedLightTheme,
+  // 外太空舞台
+  'outerSpaceDark': outerSpaceDarkTheme,
+  'outerSpaceLight': outerSpaceLightTheme,
+  // 粉红樱花
+  'pinkSakuraDark': pinkSakuraDarkTheme,
+  'pinkSakuraLight': pinkSakuraLightTheme,
+  // 紫褐
+  'purpleBrownDark': purpleBrownDarkTheme,
+  'purpleBrownLight': purpleBrownLightTheme,
+  // 红蓝
+  'redBlueDark': redBlueDarkTheme,
+  'redBlueLight': redBlueLightTheme,
+  // 红色龙卷风
+  'redTornadoDark': redTornadoDarkTheme,
+  'redTornadoLight': redTornadoLightTheme,
+  // 红酒
+  'redWineDark': redWineDarkTheme,
+  'redWineLight': redWineLightTheme,
+  // 红木
+  'rosewoodDark': rosewoodDarkTheme,
+  'rosewoodLight': rosewoodLightTheme,
+  // 锈橙色
+  'rustDeepOrangeDark': rustDeepOrangeDarkTheme,
+  'rustDeepOrangeLight': rustDeepOrangeLightTheme,
+  // 圣胡安蓝
+  'sanJuanBlueDark': sanJuanBlueDarkTheme,
+  'sanJuanBlueLight': sanJuanBlueLightTheme,
+  // 鲨鱼橙
+  'sharkOrangeDark': sharkOrangeDarkTheme,
+  'sharkOrangeLight': sharkOrangeLightTheme,
+  // 雷鸟红
+  'thunderbirdRedDark': thunderbirdRedDarkTheme,
+  'thunderbirdRedLight': thunderbirdRedLightTheme,
+  // 威尔敦绿
+  'verdunGreenDark': verdunGreenDarkTheme,
+  'verdunGreenLight': verdunGreenLightTheme,
+  // 威尔敦酸橙
+  'verdunLimeDark': verdunLimeDarkTheme,
+  'verdunLimeLight': verdunLimeLightTheme,
+  // 尼古拉斯烧焦
+  'vesuviusBurnedDark': vesuviusBurnedDarkTheme,
+  'vesuviusBurnedLight': vesuviusBurnedLightTheme,
+  // 柳树芥末
+  'willowWasabiDark': willowWasabiDarkTheme,
+  'willowWasabiLight': willowWasabiLightTheme,
+  // 育空金黄
+  'yukonGoldYellowDark': yukonGoldYellowDarkTheme,
+  'yukonGoldYellowLight': yukonGoldYellowLightTheme,
+};
