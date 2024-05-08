@@ -4,9 +4,9 @@
 
 App Service 是一个基于 [GetX](https://pub.dev/packages/get) 的应用服务，提供应用级别的管理服务，如主题管理、深色模式管理和本地化管理。
 
-![Alt text](./readme_pics/studio64_5duUzsvaJV.gif)
+![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/studio64_5duUzsvaJV.gif)
 
-![Alt text](./readme_pics/example_wrJkq7TYlE.gif)
+![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/example_wrJkq7TYlE.gif)
 
 **作者:** [李俊才](http://thispage.tech)
 
@@ -162,11 +162,11 @@ const ThemeModal(),
 
 它以一个主题图标的形式显示在页面上：
 
-![chrome_HM2hFfct9z](./readme_pics/chrome_HM2hFfct9z.png)
+![chrome_HM2hFfct9z](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_HM2hFfct9z.png)
 
 如果触摸或点击该图标，将会以对话框的形式为用户提供主题选择：
 
-![chrome_oPKRHK21u2](./readme_pics/chrome_oPKRHK21u2.png)
+![chrome_oPKRHK21u2](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_oPKRHK21u2.png)
 
 每一个主题将以其 `primaryColor`色的圆形显示在该模态框中，被选中的主题对应的圆形有一个“√”号。
 
@@ -206,7 +206,7 @@ appService.toggleDarkMode()
 
 **DarkModeSwitch** 是一个可以直接使用的暗黑模式切换开关，你可以直接在代码中使用它。外观上，它看起来就像这样：
 
-![chrome_kVi5w711Re](./readme_pics/chrome_kVi5w711Re.gif)
+![chrome_kVi5w711Re](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_kVi5w711Re.gif)
 
 ### 2.3 跟随系统模式
 从 V4.0.0 开始，新增暗黑模式跟随系统功能。通过改变AppService的`followSystem`属性值，可以设置是否跟随系统。一旦手动修改暗黑模式，则`followSystem`的值将设置为false。其中`followSystem`是一个`RxBool`类型的变量，意味着它时响应式的。例如：
@@ -229,7 +229,7 @@ Obx(
 ),
 ```
 
-![alt text](./readme_pics/ApplicationFrameHost_nkub0Y08No.gif)
+![alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/ApplicationFrameHost_nkub0Y08No.gif)
 
 跟随系统模式在不同平台上表现具有差异，由于API原因，在Windows平台上是强制跟随系统暗黑模式的。
 
@@ -301,7 +301,7 @@ AppService appService = AppService(
 
 应用标题是不能使用**GetX**提供的 `.tr`来实现翻译的，因为在顶层组件初始化完成之前该方法不可用。这在 **Web** 端的本地化切换效果尤为明显：
 
-![chrome_0ywly93CSl](./readme_pics/chrome_0ywly93CSl.gif)
+![chrome_0ywly93CSl](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_0ywly93CSl.gif)
 
 为了实现这种动态切换，你可以像我一样使用一个 `switch`语句，下面是一个示例：
 
@@ -356,7 +356,7 @@ const LangSelectMenu(),
 
 看起来像这样：
 
-![chrome_WBdxDZiVCG](./readme_pics/chrome_WBdxDZiVCG.gif)
+![chrome_WBdxDZiVCG](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_WBdxDZiVCG.gif)
 
 **Wen**也是一个弹出菜单的按钮，只不过它以一个图标显示，这通常同于**Header**中：
 
@@ -366,7 +366,7 @@ const Wen()
 
 看起来就像这样：
 
-![C844qQlH1K](./readme_pics/C844qQlH1K.png)
+![C844qQlH1K](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/C844qQlH1K.png)
 
 你可以自定义显示的图标，以及图标的大小，并且它可以是任何组件。
 
@@ -374,14 +374,14 @@ const Wen()
 
 如果你想在设置页中选择语言，也可以使用考虑使用 **LanguageSelectPage 或 CupertinoLanguageSelectPage 组件，这个组件是一个语言选择页面，你可以从一个设置项中打开它：**
 
-![1709576847626](./readme_pics/1709576847626.gif)
+![1709576847626](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/1709576847626.gif)
 
 
 ## 3. Web App
 
 在 Web App 中，当前的 [sharedPreferencesWeb](https://pub.dev/packages/shared_preferences_web) 库通过 [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 实现键值对存储。如果改变 AppService 所管理的相关状态，这些变化将直接反映在浏览器的 localStorage 中：
 
-![Alt text](./readme_pics/chrome_aQ4vYWZSYM.gif)
+![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_aQ4vYWZSYM.gif)
 
 ## 4. Example App
 

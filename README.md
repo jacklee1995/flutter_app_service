@@ -4,9 +4,9 @@
 
 App Service is an application service based on [GetX](https://pub.dev/packages/get), providing application-level management services such as theme management, dark mode management, and localization management.
 
-![Alt text](./readme_pics/studio64_5duUzsvaJV.gif)
+![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/studio64_5duUzsvaJV.gif)
 
-![Alt text](./readme_pics/example_wrJkq7TYlE.gif)
+![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/example_wrJkq7TYlE.gif)
 
 **作者:** [李俊才](http://thispage.tech)
 
@@ -162,11 +162,11 @@ const ThemeModal(),
 
 It displays as a theme icon on the page:
 
-![chrome_HM2hFfct9z](./readme_pics/chrome_HM2hFfct9z.png)
+![chrome_HM2hFfct9z](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_HM2hFfct9z.png)
 
 If you touch or click on this icon, a dialog will appear for the user to select a theme:
 
-![chrome_oPKRHK21u2](./readme_pics/chrome_oPKRHK21u2.png)
+![chrome_oPKRHK21u2](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_oPKRHK21u2.png)
 
 Each theme will be displayed as a circular shape with its `primaryColor` in the modal, and the selected theme will have a checkmark symbol.
 
@@ -206,7 +206,7 @@ Additionally, on the instance object `appService`, methods `setDarkMode` and `se
 
 **DarkModeSwitch** is a readily usable switch for toggling dark mode, which you can directly utilize in your code. In appearance, it looks like this:
 
-![chrome_kVi5w711Re](./readme_pics/chrome_kVi5w711Re.gif)
+![chrome_kVi5w711Re](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_kVi5w711Re.gif)
 
 ### 2.3 Follow System Mode
 
@@ -230,7 +230,7 @@ Obx(
 ),
 ```
 
-![alt text](./readme_pics/ApplicationFrameHost_nkub0Y08No.gif)
+![alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/ApplicationFrameHost_nkub0Y08No.gif)
 
 The behavior of system mode follow varies across different platforms; on Windows platform, it forcibly follows the system's dark mode.
 
@@ -300,7 +300,7 @@ The default value of `defaultLang` is *LanguageEnum.en*. This definition needs t
 
 The application title cannot be translated using **GetX**'s `.tr` because this method is unavailable before the initialization of the top-level component. This limitation is particularly noticeable in the localization switch effect on the **Web**:
 
-![chrome_0ywly93CSl](./readme_pics/chrome_0ywly93CSl.gif)
+![chrome_0ywly93CSl](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_0ywly93CSl.gif)
 
 To achieve this dynamic switching, you can use a `switch` statement as shown in the following example:
 
@@ -355,7 +355,7 @@ const LangSelectMenu(),
 
 It looks like this:
 
-![chrome_WBdxDZiVCG](./readme_pics/chrome_WBdxDZiVCG.gif)
+![chrome_WBdxDZiVCG](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_WBdxDZiVCG.gif)
 
 **Wen** is also a button for a popup menu, but it displays an icon, typically used within a **Header**:
 
@@ -365,7 +365,7 @@ const Wen()
 
 It appears as follows:
 
-![C844qQlH1K](./readme_pics/C844qQlH1K.png)
+![C844qQlH1K](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/C844qQlH1K.png)
 
 You can customize the displayed icon, its size, and it can be any widget.
 
@@ -373,13 +373,13 @@ You can customize the displayed icon, its size, and it can be any widget.
 
 If you wish to select a language in a settings page, you may consider using **LanguageSelectPage** or **CupertinoLanguageSelectPage** components. These components represent a language selection page, which you can open from a settings item.
 
-![1709576847626](./readme_pics/1709576847626.gif)
+![1709576847626](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/1709576847626.gif)
 
 ## 3. Web App
 
 In a Web App, the current [sharedPreferencesWeb](https://pub.dev/packages/shared_preferences_web) library implements key-value pair storage through [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). Changes in relevant states managed by the AppService will be directly reflected in the browser's localStorage:
 
-![Alt text](./readme_pics/chrome_aQ4vYWZSYM.gif)
+![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/readme_pics/chrome_aQ4vYWZSYM.gif)
 
 ## 4. Example App
 
