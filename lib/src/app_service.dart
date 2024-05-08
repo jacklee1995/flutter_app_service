@@ -7,14 +7,6 @@ import 'enums/themes_enum.dart';
 import 'utils/lang.dart';
 import 'utils/theme.dart';
 
-void pinkPrint(e) {
-  String pinkColor = '\x1B[38;5;206m'; // 粉红色
-  String resetColor = '\x1B[0m'; // 恢复默认颜色
-
-  // 打印粉红色文本
-  debugPrint('${pinkColor}$e${resetColor}');
-}
-
 class AppService extends GetxController {
   /// SharedPreferences instance
   final SharedPreferences _prefs;
@@ -23,6 +15,8 @@ class AppService extends GetxController {
   final List<LanguageEnum> supportedLanguages;
 
   RxBool isDarkMode = false.obs;
+  RxBool isSystemDarkMode = false.obs;
+  RxBool followSystem = true.obs; // 跟随系统的响应式变量
   final Rx<ColorThemesEnum> _themesEnum =
       ColorThemesEnum.blueDelight.obs; // Initialize to blueDelight theme
   final Rx<LanguageEnum> language = LanguageEnum.enUS.obs;
@@ -38,6 +32,23 @@ class AppService extends GetxController {
   void onInit() {
     super.onInit();
     _loadAppServiceSettings();
+
+    // 监听系统深色模式的变化
+    WidgetsBinding.instance.platformDispatcher.onPlatformBrightnessChanged =
+        () {
+      isSystemDarkMode.value =
+          WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+              Brightness.dark;
+      if (followSystem.value) {
+        // 如果跟随系统，则根据系统深色模式更新暗黑模式
+        isDarkMode.value = isSystemDarkMode.value;
+        saveFollowSystem();
+        saveDarkMode();
+      }
+      _updateTheme();
+    };
+
+    _updateTheme();
   }
 
   // Load status from SharedPreferences
@@ -47,6 +58,12 @@ class AppService extends GetxController {
 
     // Load dark mode state
     bool? isDarkModeValue = _prefs.getBool('isDarkMode');
+
+    // Load follow system state
+    bool? followSystemValue = _prefs.getBool('followSystem');
+    if (followSystemValue != null) {
+      followSystem.value = followSystemValue;
+    }
 
     if (themeEnumString != null) {
       ColorThemesEnum themeEnum = ColorThemesEnum.values
@@ -59,10 +76,12 @@ class AppService extends GetxController {
       // Update color theme
       setColorTheme(themeEnum);
     }
-
+    // 检查系统深色模式状态
+    isSystemDarkMode.value =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+            Brightness.dark;
     // Loading language
     String? langEnumString = _prefs.getString('langEnum');
-    pinkPrint('Load LangEnumString = $langEnumString');
 
     if (langEnumString != null) {
       LanguageEnum langEnum =
@@ -100,39 +119,45 @@ class AppService extends GetxController {
   /// - themeEnum: Enumeration value representing language theme.
   void setColorTheme(ColorThemesEnum themeEnum) {
     _themesEnum.value = themeEnum;
-    Get.changeTheme(getThemeDataByEnum(_themesEnum.value, isDarkMode.value));
-
+    _updateTheme();
     saveColorTheme();
   }
 
-  /// Switch to dark mode
+  void _updateTheme() {
+    Get.changeTheme(getThemeDataByEnum(
+        _themesEnum.value, isSystemDarkMode.value || isDarkMode.value));
+    Get.forceAppUpdate();
+  }
+
   void setDarkMode() {
+    followSystem.value = false;
     isDarkMode.value = true;
-    setColorTheme(_themesEnum.value);
+    _updateTheme();
+    saveFollowSystem();
     saveDarkMode();
   }
 
-  /// Switch to white light mode
   void setLightMode() {
+    followSystem.value = false;
     isDarkMode.value = false;
-    setColorTheme(_themesEnum.value);
+    _updateTheme();
+    saveFollowSystem();
     saveDarkMode();
   }
 
   /// Toggle dark mode
   void toggleDarkMode() {
+    followSystem.value = false;
     isDarkMode.value = !isDarkMode.value;
     // Update dark mode
     setColorTheme(_themesEnum.value);
+    saveFollowSystem();
     saveDarkMode();
   }
 
   /// Set an internationalized language as
   /// the current language.
   void updateLocale(LanguageEnum newLanguage) {
-    pinkPrint(
-        '---------------------------------------------------------------');
-    pinkPrint('updateLocale to $newLanguage');
     language.value = newLanguage;
     String? langStr = langEnumToStr(language.value);
 
@@ -140,7 +165,6 @@ class AppService extends GetxController {
       if (langStr == 'en') {
         Get.updateLocale(const Locale('en', 'US'));
       }
-      pinkPrint('Get.updateLocale $langStr');
       Get.updateLocale(Locale(langStr));
     }
     saveLocale();
@@ -154,6 +178,11 @@ class AppService extends GetxController {
   /// Save dark mode state
   Future<void> saveDarkMode() async {
     _prefs.setBool('isDarkMode', isDarkMode.value);
+  }
+
+  /// Save follow system state
+  Future<void> saveFollowSystem() async {
+    _prefs.setBool('followSystem', followSystem.value);
   }
 
   /// save Preservation language state

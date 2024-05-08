@@ -51,6 +51,7 @@ Map<String, String> ar = {
   'app_service.dark_mode': 'الوضع الداكن',
   'app_service.sys_lang': 'لغة النظام',
   'app_service.select_theme': 'اختيار السمة',
+  'app_service.follow_system': 'اتبع النظام',
   // theme
   'aquaBlue': 'أزرق مائي',
   'bahamaTrinidad': 'بهاما ترينيداد',

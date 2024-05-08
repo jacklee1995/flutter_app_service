@@ -51,6 +51,7 @@ Map<String, String> ko = {
   'app_service.dark_mode': '다크 모드',
   'app_service.sys_lang': '시스템 언어',
   'app_service.select_theme': '테마 선택',
+  'app_service.follow_system': '시스템을 따르다',
   // themes
   'aquaBlue': '아쿠아 블루',
   'bahamaTrinidad': '바하마 트리니다드',

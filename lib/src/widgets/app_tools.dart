@@ -1,7 +1,10 @@
 // 页面配置工具集
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/instance_manager.dart';
 
+import '../app_service.dart';
 import '../widgets/dark_mode_switch.dart';
 import 'theme_modal.dart';
 import 'traslate_popup_menu.dart';
@@ -44,6 +47,22 @@ class AppTools extends StatelessWidget {
                       const DarkModeSwitch(),
                     ],
                   ),
+                  const SizedBox(height: 6),
+                  Obx(() => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('app_service.follow_system'.tr +
+                              'app_service.:'.tr),
+                          Checkbox(
+                            value: Get.find<AppService>().followSystem.value,
+                            onChanged: (value) {
+                              Get.find<AppService>().followSystem.value =
+                                  value!;
+                              Get.find<AppService>().saveFollowSystem();
+                            },
+                          ),
+                        ],
+                      )),
                   const SizedBox(height: 6),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

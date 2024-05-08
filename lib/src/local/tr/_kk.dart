@@ -51,6 +51,7 @@ Map<String, String> kk = {
   'app_service.dark_mode': 'Қара көз режимі',
   'app_service.sys_lang': 'Жүйелік тіл',
   'app_service.select_theme': 'Тақырыпты таңдау',
+  'app_service.follow_system': 'Жүйені көру',
   // theme
   'aquaBlue': 'су жасыл',
   'bahamaTrinidad': 'Багама Тринидад',

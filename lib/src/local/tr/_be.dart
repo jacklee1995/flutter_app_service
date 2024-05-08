@@ -51,6 +51,7 @@ Map<String, String> be = {
   'app_service.dark_mode': 'Цёмны рэжым',
   'app_service.sys_lang': 'Мова сістэмы',
   'app_service.select_theme': 'Выбраць тэму',
+  'app_service.follow_system': 'Следуйце за сістэмай',
   // theme
   'aquaBlue': 'водацвет',
   'bahamaTrinidad': 'Багамы і Трынідад',

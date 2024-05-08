@@ -51,6 +51,7 @@ Map<String, String> he = {
   'app_service.dark_mode': 'מצב אפל',
   'app_service.sys_lang': 'שפת המערכת',
   'app_service.select_theme': 'בחר ערכת נושא',
+  'app_service.follow_system': 'עקוב אחר המערכת',
   // theme
   'aquaBlue': 'תכלת מים',
   'bahamaTrinidad': 'בהאמה טרינידד',
