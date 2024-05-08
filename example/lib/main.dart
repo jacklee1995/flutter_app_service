@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         AppServiceMessages().keys,
         HomeMessages().keys,
       ]),
-      locale: const Locale('zh', 'CN'),
+      locale: Locale(appService.currentLangStr),
       fallbackLocale: const Locale('en', 'US'),
       home: const HomeView(),
     );
