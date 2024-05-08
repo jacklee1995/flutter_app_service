@@ -30,3 +30,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+screenshots:
+  - description: "Effect display diagram."
+    path: readme_pics/example_wrJkq7TYlE.gif

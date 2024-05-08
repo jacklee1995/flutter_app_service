@@ -16,7 +16,7 @@ class AppService extends GetxController {
 
   RxBool isDarkMode = false.obs;
   RxBool isSystemDarkMode = false.obs;
-  RxBool followSystem = true.obs; // 跟随系统的响应式变量
+  RxBool followSystem = true.obs; // Dark mode following system
   final Rx<ColorThemesEnum> _themesEnum =
       ColorThemesEnum.blueDelight.obs; // Initialize to blueDelight theme
   final Rx<LanguageEnum> language = LanguageEnum.enUS.obs;
