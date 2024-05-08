@@ -323,7 +323,7 @@ GetMaterialApp(
     AppServiceMessages().keys,
     HomeMessages().keys,
   ]),
-  locale: const Locale('zh', 'CN'),
+  locale: Locale(appService.currentLangStr),
   home: const HomeView(),
 );
 
