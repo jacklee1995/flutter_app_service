@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
 import 'package:app_service/app_service.dart';
 
 import 'app/injections.dart';
@@ -10,8 +10,12 @@ import 'modules/home/home_view.dart';
 import 'modules/home/home_tr.dart';
 
 void main() async {
-  Get.testMode = false;
-  GetitInjection.init();
+  Get.testMode = true;
+
+  WidgetsFlutterBinding.ensureInitialized();
+  Get.testMode = kDebugMode;
+
+  await initDependencies();
 
   runApp(const MyApp());
 }
@@ -19,14 +23,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  Future<void> onInit(BuildContext context) async {
-    final appService = GetIt.instance.get<AppService>();
-    await appService.init();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final appService = GetIt.instance.get<AppService>();
+    final appService = Get.find<AppService>();
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: Get.testMode,
       title: switch (Get.locale?.toLanguageTag()) {
@@ -58,9 +58,6 @@ class MyApp extends StatelessWidget {
       locale: const Locale('zh', 'CN'),
       fallbackLocale: const Locale('en', 'US'),
       home: const HomeView(),
-      onInit: () async {
-        await onInit(context);
-      },
     );
   }
 }

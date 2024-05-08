@@ -2,12 +2,18 @@ import 'package:dash_flags/dash_flags.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import '../../app_service.dart';
 import '../utils/lang.dart';
 
 class CupertinoLanguageSelectPage extends StatefulWidget {
-  const CupertinoLanguageSelectPage({super.key});
+  static const String url = '/language-select-page';
+  final SettingsThemeData? settingsThemeData;
+
+  const CupertinoLanguageSelectPage({
+    super.key,
+    this.settingsThemeData,
+  });
 
   @override
   State<CupertinoLanguageSelectPage> createState() =>
@@ -18,7 +24,7 @@ class _CupertinoLanguageSelectPageState
     extends State<CupertinoLanguageSelectPage> {
   @override
   Widget build(BuildContext context) {
-    final AppService appService = GetIt.instance.get<AppService>();
+    final AppService appService = Get.find<AppService>();
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
@@ -27,6 +33,8 @@ class _CupertinoLanguageSelectPageState
       child: SafeArea(
         child: SettingsList(
           applicationType: ApplicationType.cupertino,
+          lightTheme: widget.settingsThemeData,
+          darkTheme: widget.settingsThemeData,
           platform: DevicePlatform.iOS,
           sections: [
             SettingsSection(

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:get_it/get_it.dart';
-
+import 'package:get/instance_manager.dart';
 import '../enums/themes_enum.dart';
 import '../app_service.dart';
-
 import '../utils/theme.dart';
 import 'colored_circle.dart';
 import 'colorful_theme_icon.dart';
@@ -172,7 +168,7 @@ class ThemeItem extends StatefulWidget {
 class ThemeItemState extends State<ThemeItem> {
   @override
   Widget build(BuildContext context) {
-    final AppService appService = GetIt.instance.get<AppService>();
+    final AppService appService = Get.find<AppService>();
     ThemeData themeData = getThemeDataByEnum(widget.theme, false);
 
     return ColoredCircle(

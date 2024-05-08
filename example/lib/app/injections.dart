@@ -1,17 +1,35 @@
 import 'package:app_service/app_service.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../singletons/app_service.dart';
-import '../singletons/prefs.dart';
+Future<void> initDependencies() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  Get.put<SharedPreferences>(prefs);
 
-/// 基于 Get it 库的依赖注入
-class GetitInjection {
-  static void init() {
-    final GetIt i = GetIt.instance;
-
-    i.registerSingletonAsync<SharedPreferences>(() => prefsInstance());
-
-    i.registerLazySingleton<AppService>(() => appService(i)); // 应用基础服务
-  }
+  // 应用管理
+  Get.lazyPut<AppService>(
+    () => AppService(
+      Get.find<SharedPreferences>(),
+      supportedLanguages: const [
+        LanguageEnum.zh,
+        LanguageEnum.zhHk,
+        LanguageEnum.zhMO,
+        LanguageEnum.zhTW,
+        LanguageEnum.en,
+        LanguageEnum.enUK,
+        LanguageEnum.enUS,
+        LanguageEnum.de,
+        LanguageEnum.ru,
+        LanguageEnum.uk,
+        LanguageEnum.be,
+        LanguageEnum.kk,
+        LanguageEnum.sr,
+        LanguageEnum.fr,
+        LanguageEnum.ja,
+        LanguageEnum.ko,
+        LanguageEnum.ar,
+      ],
+    ),
+    fenix: true,
+  );
 }

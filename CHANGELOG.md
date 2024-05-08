@@ -1,4 +1,16 @@
-# 3.0.0
+# CHANGELOGS
+
+
+
+## 3.0.1
+
+### Add
+
+- **DarkIconToggle**, a widget that toggles between dark and light icons based on the current theme mode.
+
+
+
+## 3.0.0
 
 ### breake changes
 

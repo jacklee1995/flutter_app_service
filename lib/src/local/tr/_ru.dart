@@ -51,6 +51,7 @@ Map<String, String> ru = {
   'app_service.dark_mode': 'Темный режим',
   'app_service.sys_lang': 'Системный язык',
   'app_service.select_theme': 'Выбрать тему',
+  'app_service.follow_system': 'Следовать за системой',
   // themes
   'aquaBlue': 'Аквамарин',
   'bahamaTrinidad': 'Багамские острова Тринидад',

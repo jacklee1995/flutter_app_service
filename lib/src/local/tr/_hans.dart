@@ -51,6 +51,7 @@ Map<String, String> hans = {
   'app_service.dark_mode': '暗黑模式',
   'app_service.sys_lang': '系统语言',
   'app_service.select_theme': '选择主题',
+  'app_service.follow_system': '跟随系统',
   // 主题
   'aquaBlue': '水蓝',
   'bahamaTrinidad': '巴哈马特立尼达',

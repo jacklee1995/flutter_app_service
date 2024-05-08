@@ -1,18 +1,20 @@
 # App Service
 
-> 当前版本：v3.0.0
+> 【重大更细】：新增系统暗黑模式跟随功能。如果手动设置了暗黑模式，则系统跟随功能自动取消。
 
 App Service 是一个基于 [GetX](https://pub.dev/packages/get) 的应用服务，提供应用级别的管理服务，如主题管理、深色模式管理和本地化管理。
 
-![Alt text](./example/readme_images/studio64_5duUzsvaJV.gif)
+![Alt text](./readme_images/studio64_5duUzsvaJV.gif)
 
-![Alt text](./example/readme_images/example_wrJkq7TYlE.gif)
+![Alt text](./readme_images/example_wrJkq7TYlE.gif)
 
 **作者:** [李俊才](http://thispage.tech)
 
 **邮箱:** [291148484@163.com](291148484@163.com)
 
 ---
+
+
 
 ## 1. 入门指南
 
@@ -27,63 +29,47 @@ flutter pub add app_seivice
 ## 2. 在依赖注入中管理 App Service
 
 在实际项目中，除了 AppService 外，可能还有许多其他需要管理的依赖项，因此我喜欢创建一个 injections.dart 文件来描述这些依赖项。
-以下示例使用 [GetIt](https://pub.dev/packages/get_it) 库来管理依赖项。您还可以根据自己的习惯使用其他依赖管理方案。
+以下示例使用 [Get](https://pub.dev/packages/get) 库来管理依赖项。
 
 ```dart
 import 'package:app_service/app_service.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../singletons/app_service.dart';
-import '../singletons/prefs.dart';
+Future<void> initDependencies() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  Get.put<SharedPreferences>(prefs);
 
-/// 此示例为基于 GetIt 依赖注入
-class GetitInjection {
-  static void init() {
-    final GetIt i = GetIt.instance;
-    // 这里你是一个注册shared_preferences的示意
-    i.registerSingletonAsync<SharedPreferences>(() => prefsInstance());
-
-    i.registerLazySingleton<AppService>(() => appService(i)); // 应用基础服务
-  }
-}
-
-```
-
-下面是一个示例 `app_service.dart`的实现：
-
-```dart
-import 'package:app_service/app_service.dart';
-import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-AppService appService(GetIt i) {
-  return AppService(
-    // 从版本`3.0.0`开始，AppService内部不再实例化SharedPreferences，因此在创建AppService实例时你应该提前将创建好的SharedPreferences作为必须参数传入AppService的构造器。
-    i.get<SharedPreferences>(),
-    supportedLanguages: const [
-      LanguageEnum.zh,
-      LanguageEnum.zhHk,
-      LanguageEnum.zhMO,
-      LanguageEnum.zhTW,
-      LanguageEnum.en,
-      LanguageEnum.enUK,
-      LanguageEnum.enUS,
-      LanguageEnum.de,
-      LanguageEnum.ru,
-      LanguageEnum.uk,
-      LanguageEnum.be,
-      LanguageEnum.kk,
-      LanguageEnum.sr,
-      LanguageEnum.fr,
-      LanguageEnum.ja,
-      LanguageEnum.ko,
-      LanguageEnum.ar,
-    ],
-    defaultLang: LanguageEnum.zh,
+  // 应用管理
+  Get.lazyPut<AppService>(
+    () => AppService(
+      Get.find<SharedPreferences>(),
+      supportedLanguages: const [
+        LanguageEnum.zh,
+        LanguageEnum.zhHk,
+        LanguageEnum.zhMO,
+        LanguageEnum.zhTW,
+        LanguageEnum.en,
+        LanguageEnum.enUK,
+        LanguageEnum.enUS,
+        LanguageEnum.de,
+        LanguageEnum.ru,
+        LanguageEnum.uk,
+        LanguageEnum.be,
+        LanguageEnum.kk,
+        LanguageEnum.sr,
+        LanguageEnum.fr,
+        LanguageEnum.ja,
+        LanguageEnum.ko,
+        LanguageEnum.ar,
+      ],
+    ),
+    fenix: true,
   );
 }
 ```
+
+旧的版本中，需要通过`defaultLang: LanguageEnum.zh,`配置默认语言。当前配置第一条即默认。
 
 ### 2.1 主题管理
 
@@ -176,11 +162,11 @@ const ThemeModal(),
 
 它以一个主题图标的形式显示在页面上：
 
-![chrome_HM2hFfct9z](./example/readme_images/chrome_HM2hFfct9z.png)
+![chrome_HM2hFfct9z](./readme_images/chrome_HM2hFfct9z.png)
 
 如果触摸或点击该图标，将会以对话框的形式为用户提供主题选择：
 
-![chrome_oPKRHK21u2](./example/readme_images/chrome_oPKRHK21u2.png)
+![chrome_oPKRHK21u2](./readme_images/chrome_oPKRHK21u2.png)
 
 每一个主题将以其 `primaryColor`色的圆形显示在该模态框中，被选中的主题对应的圆形有一个“√”号。
 
@@ -220,7 +206,30 @@ appService.toggleDarkMode()
 
 **DarkModeSwitch** 是一个可以直接使用的暗黑模式切换开关，你可以直接在代码中使用它。外观上，它看起来就像这样：
 
-![chrome_kVi5w711Re](./example/readme_images/chrome_kVi5w711Re.gif)
+![chrome_kVi5w711Re](./readme_images/chrome_kVi5w711Re.gif)
+
+### 2.3 跟随系统模式
+从 V4.0.0 开始，新增暗黑模式跟随系统功能。通过改变AppService的`followSystem`属性值，可以设置是否跟随系统。一旦手动修改暗黑模式，则`followSystem`的值将设置为false。其中`followSystem`是一个`RxBool`类型的变量，意味着它时响应式的。例如：
+
+```dart
+Obx(
+  () => Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text('app_service.follow_system'.tr + 'app_service.:'.tr),
+      Checkbox(
+        value: Get.find<AppService>().followSystem.value,
+        onChanged: (value) {
+          Get.find<AppService>().followSystem.value = value!;
+          Get.find<AppService>().saveFollowSystem();
+        },
+      ),
+    ],
+  ),
+),
+```
+
+![alt text](./readme_images/ApplicationFrameHost_nkub0Y08No.gif)
 
 ## 3. Localization
 
@@ -290,7 +299,7 @@ AppService appService = AppService(
 
 应用标题是不能使用**GetX**提供的 `.tr`来实现翻译的，因为在顶层组件初始化完成之前该方法不可用。这在 **Web** 端的本地化切换效果尤为明显：
 
-![chrome_0ywly93CSl](./example/readme_images/chrome_0ywly93CSl.gif)
+![chrome_0ywly93CSl](./readme_images/chrome_0ywly93CSl.gif)
 
 为了实现这种动态切换，你可以像我一样使用一个 `switch`语句，下面是一个示例：
 
@@ -346,7 +355,7 @@ const LangSelectMenu(),
 
 看起来像这样：
 
-![chrome_WBdxDZiVCG](./example/readme_images/chrome_WBdxDZiVCG.gif)
+![chrome_WBdxDZiVCG](./readme_images/chrome_WBdxDZiVCG.gif)
 
 **Wen**也是一个弹出菜单的按钮，只不过它以一个图标显示，这通常同于**Header**中：
 
@@ -356,7 +365,7 @@ const Wen()
 
 看起来就像这样：
 
-![C844qQlH1K](./example/readme_images/C844qQlH1K.png)
+![C844qQlH1K](./readme_images/C844qQlH1K.png)
 
 你可以自定义显示的图标，以及图标的大小，并且它可以是任何组件。
 
@@ -364,7 +373,7 @@ const Wen()
 
 如果你想在设置页中选择语言，也可以使用考虑使用 **LanguageSelectPage 或 CupertinoLanguageSelectPage 组件，这个组件是一个语言选择页面，你可以从一个设置项中打开它：**
 
-![1709576847626](./example/readme_images/1709576847626.gif)
+![1709576847626](./readme_images/1709576847626.gif)
 
 ## 3. Initialization
 
@@ -406,7 +415,7 @@ class MyApp extends StatelessWidget {
 
 在 Web App 中，当前的 [sharedPreferencesWeb](https://pub.dev/packages/shared_preferences_web) 库通过 [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 实现键值对存储。如果改变 AppService 所管理的相关状态，这些变化将直接反映在浏览器的 localStorage 中：
 
-![Alt text](./example/readme_images/chrome_aQ4vYWZSYM.gif)
+![Alt text](./readme_images/chrome_aQ4vYWZSYM.gif)
 
 ## 5. Example App
 

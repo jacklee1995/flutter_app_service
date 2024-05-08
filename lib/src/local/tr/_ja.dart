@@ -51,6 +51,7 @@ Map<String, String> ja = {
   'app_service.dark_mode': 'ダークモード',
   'app_service.sys_lang': 'システム言語',
   'app_service.select_theme': 'テーマの選択',
+  'app_service.follow_system': 'システムに従う',
   // 主题
   "aquaBlue": "アクアブルー",
   "bahamaTrinidad": "バハマトリニダード",

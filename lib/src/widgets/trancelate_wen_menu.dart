@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:dash_flags/dash_flags.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-
-import 'package:get_it/get_it.dart';
-
+import 'package:get/instance_manager.dart';
 import '../app_service.dart';
 import '../enums/language_enum.dart';
 import '../utils/lang.dart';
@@ -29,7 +27,7 @@ class _WenState extends State<Wen> {
 
   @override
   Widget build(BuildContext context) {
-    final AppService appService = GetIt.instance.get<AppService>();
+    final AppService appService = Get.find<AppService>();
     return DropdownButtonHideUnderline(
       child: PopupMenuButton<String>(
         icon: widget.icon,

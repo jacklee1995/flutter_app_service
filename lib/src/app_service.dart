@@ -15,19 +15,82 @@ class AppService extends GetxController {
   final List<LanguageEnum> supportedLanguages;
 
   RxBool isDarkMode = false.obs;
+  RxBool isSystemDarkMode = false.obs;
+  RxBool followSystem = true.obs; // 跟随系统的响应式变量
   final Rx<ColorThemesEnum> _themesEnum =
       ColorThemesEnum.blueDelight.obs; // Initialize to blueDelight theme
   final Rx<LanguageEnum> language = LanguageEnum.enUS.obs;
-
   AppService(
     this._prefs, {
     this.supportedLanguages = const [
       LanguageEnum.zh,
       LanguageEnum.en,
     ],
-    defaultLang = LanguageEnum.en,
-  }) {
-    language.value = defaultLang;
+  });
+
+  @override
+  void onInit() {
+    super.onInit();
+    _loadAppServiceSettings();
+
+    // 监听系统深色模式的变化
+    WidgetsBinding.instance.platformDispatcher.onPlatformBrightnessChanged =
+        () {
+      isSystemDarkMode.value =
+          WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+              Brightness.dark;
+      if (followSystem.value) {
+        // 如果跟随系统，则根据系统深色模式更新暗黑模式
+        isDarkMode.value = isSystemDarkMode.value;
+        saveFollowSystem();
+        saveDarkMode();
+      }
+      _updateTheme();
+    };
+
+    _updateTheme();
+  }
+
+  // Load status from SharedPreferences
+  Future<void> _loadAppServiceSettings() async {
+    // Load theme
+    String? themeEnumString = _prefs.getString('themeEnum');
+
+    // Load dark mode state
+    bool? isDarkModeValue = _prefs.getBool('isDarkMode');
+
+    // Load follow system state
+    bool? followSystemValue = _prefs.getBool('followSystem');
+    if (followSystemValue != null) {
+      followSystem.value = followSystemValue;
+    }
+
+    if (themeEnumString != null) {
+      ColorThemesEnum themeEnum = ColorThemesEnum.values
+          .firstWhere((e) => e.toString() == themeEnumString);
+
+      if (isDarkModeValue != null) {
+        isDarkMode.value = isDarkModeValue;
+      }
+
+      // Update color theme
+      setColorTheme(themeEnum);
+    }
+    // 检查系统深色模式状态
+    isSystemDarkMode.value =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+            Brightness.dark;
+    // Loading language
+    String? langEnumString = _prefs.getString('langEnum');
+
+    if (langEnumString != null) {
+      LanguageEnum langEnum =
+          LanguageEnum.values.firstWhere((e) => e.toString() == langEnumString);
+      // Update language
+      updateLocale(langEnum);
+    } else {
+      updateLocale(supportedLanguages[0]);
+    }
   }
 
   /// Get the current theme data,
@@ -56,31 +119,40 @@ class AppService extends GetxController {
   /// - themeEnum: Enumeration value representing language theme.
   void setColorTheme(ColorThemesEnum themeEnum) {
     _themesEnum.value = themeEnum;
-    Get.changeTheme(getThemeDataByEnum(_themesEnum.value, isDarkMode.value));
-
-    saveState();
+    _updateTheme();
+    saveColorTheme();
   }
 
-  /// Switch to dark mode
+  void _updateTheme() {
+    Get.changeTheme(getThemeDataByEnum(
+        _themesEnum.value, isSystemDarkMode.value || isDarkMode.value));
+    Get.forceAppUpdate();
+  }
+
   void setDarkMode() {
+    followSystem.value = false;
     isDarkMode.value = true;
-    setColorTheme(_themesEnum.value);
-    saveState();
+    _updateTheme();
+    saveFollowSystem();
+    saveDarkMode();
   }
 
-  /// Switch to white light mode
   void setLightMode() {
+    followSystem.value = false;
     isDarkMode.value = false;
-    setColorTheme(_themesEnum.value);
-    saveState();
+    _updateTheme();
+    saveFollowSystem();
+    saveDarkMode();
   }
 
   /// Toggle dark mode
   void toggleDarkMode() {
+    followSystem.value = false;
     isDarkMode.value = !isDarkMode.value;
     // Update dark mode
     setColorTheme(_themesEnum.value);
-    saveState();
+    saveFollowSystem();
+    saveDarkMode();
   }
 
   /// Set an internationalized language as
@@ -95,48 +167,26 @@ class AppService extends GetxController {
       }
       Get.updateLocale(Locale(langStr));
     }
-
-    saveState();
+    saveLocale();
   }
 
-  // Load status from SharedPreferences
-  Future<void> init() async {
-    // Load theme
-    String? themeEnumString = _prefs.getString('themeEnum');
-    if (themeEnumString != null) {
-      ColorThemesEnum themeEnum = ColorThemesEnum.values
-          .firstWhere((e) => e.toString() == themeEnumString);
-      // Update color theme
-      setColorTheme(themeEnum);
-    }
-
-    // Load dark mode state
-    bool? isDarkModeValue = _prefs.getBool('isDarkMode');
-    if (isDarkModeValue != null) {
-      isDarkMode.value = isDarkModeValue;
-      // Update color theme
-      setColorTheme(_themesEnum.value);
-    }
-
-    // Loading language
-    String? langEnumString = _prefs.getString('langEnum');
-    if (langEnumString != null) {
-      LanguageEnum langEnum =
-          LanguageEnum.values.firstWhere((e) => e.toString() == langEnumString);
-      // Update language
-      updateLocale(langEnum);
-    }
-  }
-
-  // Save state to SharedPreferences.
-  Future<void> saveState() async {
-    // Save theme
+  /// Save color theme state
+  Future<void> saveColorTheme() async {
     _prefs.setString('themeEnum', _themesEnum.value.toString());
+  }
 
-    // Save dark mode state
+  /// Save dark mode state
+  Future<void> saveDarkMode() async {
     _prefs.setBool('isDarkMode', isDarkMode.value);
+  }
 
-    // Preservation language
+  /// Save follow system state
+  Future<void> saveFollowSystem() async {
+    _prefs.setBool('followSystem', followSystem.value);
+  }
+
+  /// save Preservation language state
+  Future<void> saveLocale() async {
     _prefs.setString('langEnum', language.value.toString());
   }
 }

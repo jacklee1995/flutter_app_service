@@ -9,7 +9,6 @@ class HomeView extends StatelessWidget {
   final String title = 'home.appService_demo';
   const HomeView({
     super.key,
-    // required this.title,
   });
 
   @override
@@ -54,6 +53,22 @@ class HomeView extends StatelessWidget {
                   Text('app_service.dark_mode'.tr + 'app_service.:'.tr),
                   const DarkModeSwitch(),
                 ],
+              ),
+              const SizedBox(height: 6),
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('app_service.follow_system'.tr + 'app_service.:'.tr),
+                    Checkbox(
+                      value: Get.find<AppService>().followSystem.value,
+                      onChanged: (value) {
+                        Get.find<AppService>().followSystem.value = value!;
+                        Get.find<AppService>().saveFollowSystem();
+                      },
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 6),
               Row(

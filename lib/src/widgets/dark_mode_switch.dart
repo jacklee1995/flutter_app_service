@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
 import '../app_service.dart';
 
 /// Color changeover switch
@@ -53,7 +52,7 @@ class _DarkModeSwitchState extends State<DarkModeSwitch>
 
   @override
   Widget build(BuildContext context) {
-    final AppService appService = GetIt.instance.get<AppService>();
+    final AppService appService = Get.find<AppService>();
 
     return Obx(
       () {

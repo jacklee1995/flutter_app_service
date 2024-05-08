@@ -51,6 +51,7 @@ Map<String, String> de = {
   'app_service.dark_mode': 'Dunkelmodus',
   'app_service.sys_lang': 'Systemsprache',
   'app_service.select_theme': 'Thema auswählen',
+  'app_service.follow_system': 'Следовать за системой',
   // theme
   'aquaBlue': 'Aquablau',
   'bahamaTrinidad': 'Bahamas Trinidad',

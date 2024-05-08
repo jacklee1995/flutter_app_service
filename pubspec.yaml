@@ -1,7 +1,7 @@
 name: app_service
 description: App service based on GetX library.
 
-version: 3.0.0
+version: 4.0.0
 auth:
   name: Jcak Lee
   email: 291148484@163.com
@@ -20,7 +20,6 @@ dependencies:
   dash_flags: ^0.1.1
   shared_preferences: ^2.2.2
   get: ^4.6.6
-  get_it: ^7.6.7
   flutter_settings_ui: ^3.0.0
 
 dev_dependencies:

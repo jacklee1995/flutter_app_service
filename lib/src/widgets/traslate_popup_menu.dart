@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dash_flags/dash_flags.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-
-import 'package:get_it/get_it.dart';
-
+import 'package:get/instance_manager.dart';
 import '../../app_service.dart';
 import '../utils/lang.dart';
 
@@ -22,7 +20,7 @@ class _LangSelectMenuState extends State<LangSelectMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final AppService appService = GetIt.instance.get<AppService>();
+    final AppService appService = Get.find<AppService>();
     return DropdownButtonHideUnderline(
       child: Expanded(
         child: DropdownButton<String>(

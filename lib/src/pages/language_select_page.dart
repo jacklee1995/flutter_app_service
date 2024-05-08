@@ -1,13 +1,21 @@
-import 'package:flutter/material.dart';
 import 'package:dash_flags/dash_flags.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import '../../app_service.dart';
 import '../utils/lang.dart';
 
 class LanguageSelectPage extends StatefulWidget {
-  static const String url = '/language-select-page';
-  const LanguageSelectPage({super.key});
+  // final SettingsThemeData? settingsThemeData;
+  final DevicePlatform? platform;
+  final ApplicationType applicationType;
+  const LanguageSelectPage({
+    super.key,
+    // this.settingsThemeData,
+    this.platform,
+    this.applicationType = ApplicationType.material,
+  });
 
   @override
   State<LanguageSelectPage> createState() => _LanguageSelectPageState();
@@ -16,41 +24,51 @@ class LanguageSelectPage extends StatefulWidget {
 class _LanguageSelectPageState extends State<LanguageSelectPage> {
   @override
   Widget build(BuildContext context) {
-    final AppService appService = GetIt.instance.get<AppService>();
+    final AppService appService = Get.find<AppService>();
 
     return Scaffold(
       appBar: AppBar(
         title: Text('app_service.select_language'.tr),
       ),
-      body: ListView.builder(
-        itemCount: appService.supportedLanguages.length,
-        itemBuilder: (context, index) {
-          LanguageEnum langEnum = appService.supportedLanguages[index];
-          String? langString = langEnumToStr(langEnum);
-          // Check if the language is the current language
-          bool isSelected = appService.currentLang == langEnum;
+      body: SafeArea(
+        child: SettingsList(
+          // lightTheme: widget.settingsThemeData,
+          // darkTheme: widget.settingsThemeData,
+          platform: widget.platform,
+          applicationType: widget.applicationType,
+          sections: [
+            SettingsSection(
+              title: Text('app_service.language'.tr),
+              tiles: appService.supportedLanguages.map((langEnum) {
+                String? langString = langEnumToStr(langEnum);
+                bool isSelected = appService.currentLang == langEnum;
 
-          return ListTile(
-            leading: CountryFlag(
-              country: Country.fromCode(
-                getCountryCode(langString!),
-              ),
-              height: 20,
+                return SettingsTile(
+                  title: Row(
+                    children: [
+                      CountryFlag(
+                        country: Country.fromCode(
+                          getCountryCode(langString!),
+                        ),
+                        height: 20,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(child: Text('app_service.lang.$langString'.tr)),
+                    ],
+                  ),
+                  trailing: isSelected
+                      ? Icon(Icons.check_circle,
+                          color: Theme.of(context).colorScheme.secondary)
+                      : null,
+                  onPressed: (BuildContext context) {
+                    appService.updateLocale(langEnum);
+                    setState(() {});
+                  },
+                );
+              }).toList(),
             ),
-            title: Text(
-              'app_service.lang.$langString'.tr,
-              style: const TextStyle(fontSize: 16),
-            ),
-            // Show check icon if selected
-            trailing: isSelected
-                ? Icon(Icons.check, color: Theme.of(context).primaryColor)
-                : null,
-            onTap: () {
-              appService.updateLocale(langEnum);
-              Navigator.pop(context);
-            },
-          );
-        },
+          ],
+        ),
       ),
     );
   }
