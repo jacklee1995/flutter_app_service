@@ -20,6 +20,7 @@ class AppService extends GetxController {
   final Rx<ColorThemesEnum> _themesEnum =
       ColorThemesEnum.blueDelight.obs; // Initialize to blueDelight theme
   final Rx<LanguageEnum> language = LanguageEnum.enUS.obs;
+
   AppService(
     this._prefs, {
     this.supportedLanguages = const [
@@ -99,6 +100,8 @@ class AppService extends GetxController {
   ThemeData get currentTheme {
     return getThemeDataByEnum(_themesEnum.value, isDarkMode.value);
   }
+
+  ColorThemesEnum get currentThemeEnum => _themesEnum.value;
 
   /// Gets the current language enumeration value.
   LanguageEnum get currentLang {

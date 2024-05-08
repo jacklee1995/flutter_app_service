@@ -82,7 +82,14 @@ class ThemeModal extends StatefulWidget {
 }
 
 class ThemeModalState extends State<ThemeModal> {
-  ColorThemesEnum selectedTheme = ColorThemesEnum.blueDelight;
+  late ColorThemesEnum selectedTheme;
+
+  @override
+  void initState() {
+    super.initState();
+    final AppService appService = Get.find<AppService>();
+    selectedTheme = appService.currentThemeEnum;
+  }
 
   @override
   Widget build(BuildContext context) {
