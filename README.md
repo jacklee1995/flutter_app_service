@@ -1,99 +1,82 @@
 # App Service
 
-> Current Version: v3.0.0
+> [Major Update in Version 4.0.0]: Added system dark mode follow feature. If dark mode is manually set, the system follow feature is automatically disabled.
 
-[中文文档](https://github.com/jacklee1995/flutter_app_service/blob/master/README_CN.md)
+App Service is an application service based on [GetX](https://pub.dev/packages/get), providing application-level management services such as theme management, dark mode management, and localization management.
 
-An application service based on [GetX](https://pub.dev/packages/get), which provides application-level management services, such as theme management, dark mode management and localization management.
+![Alt text](./readme_pics/studio64_5duUzsvaJV.gif)
 
-![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/studio64_5duUzsvaJV.gif)
+![Alt text](./readme_pics/example_wrJkq7TYlE.gif)
 
-![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/example_wrJkq7TYlE.gif)
+**作者:** [李俊才](http://thispage.tech)
 
-**Author:** [Jack Lee](https://github.com/jacklee1995/flutter_app_service/blob/master/README_CN.md)
-
-**Email:** [291148484@163.com](291148484@163.com)
+**邮箱:** [291148484@163.com](291148484@163.com)
 
 ---
 
-## 1. Getting Started
 
-### 1.1 Install
+
+## 1. Getting Started Guide
 
 You can install the latest version of **App Service** in your project using the `flutter pub add` command:
 
 ```shell
-flutter pub add app_seivice
+flutter pub add app_service
 ```
 
-This will add `app_seivice` as a dependency in the `dependencies` section of your project's `pubspec.yaml` file and implicitly run `flutter pub get` once.
+This will add `app_service` as a dependency in the `dependencies` field of your project's `pubspec.yaml` file and implicitly run `flutter pub get`.
 
-### 1.2 Managing App Service in dependency injection
+## 2. Managing App Service in Dependency Injection
 
-In an actual project, there may be many dependencies to be managed besides AppService, so I like to create an injections.dart file to describe the dependencies.
-The following example uses the [GetIt](https://pub.dev/packages/get_it) library to manage dependencies. You can also use other dependency management schemes, depending on your own habits.import 'package:app_service/app_service.dart';
-
-```dart
-import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../singletons/app_service.dart';
-import '../singletons/prefs.dart';
-
-/// Dependency Injection based on the Get_it library.
-class GetitInjection {
-  static void init() {
-    final GetIt i = GetIt.instance;
-
-    i.registerSingletonAsync<SharedPreferences>(() => prefsInstance());
-
-    i.registerLazySingleton<AppService>(() => appService(i)); 
-  }
-}
-
-```
-
-An example implementation of `app_service.dart` is as follows:
+In real projects, besides AppService, there may be many other dependencies that need to be managed. Therefore, I like to create an `injections.dart` file to describe these dependencies.
+The following example uses the [Get](https://pub.dev/packages/get) library to manage dependencies.
 
 ```dart
 import 'package:app_service/app_service.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/instance_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-AppService appService(GetIt i) {
-  return AppService(
-    // Starting from version `3.0.0`, AppService no longer instantiates SharedPreferences internally. Therefore, when creating an instance of AppService, you should pass the pre-created SharedPreferences as a required parameter to the constructor.
-    i.get<SharedPreferences>(),
-    supportedLanguages: const [
-      LanguageEnum.zh,
-      LanguageEnum.zhHk,
-      LanguageEnum.zhMO,
-      LanguageEnum.zhTW,
-      LanguageEnum.en,
-      LanguageEnum.enUK,
-      LanguageEnum.enUS,
-      LanguageEnum.de,
-      LanguageEnum.ru,
-      LanguageEnum.uk,
-      LanguageEnum.be,
-      LanguageEnum.kk,
-      LanguageEnum.sr,
-      LanguageEnum.fr,
-      LanguageEnum.ja,
-      LanguageEnum.ko,
-      LanguageEnum.ar,
-    ],
-    defaultLang: LanguageEnum.zh,
+Future<void> initDependencies() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  Get.put<SharedPreferences>(prefs);
+
+  // 应用管理
+  Get.lazyPut<AppService>(
+    () => AppService(
+      Get.find<SharedPreferences>(),
+      supportedLanguages: const [
+        LanguageEnum.zh,
+        LanguageEnum.zhHk,
+        LanguageEnum.zhMO,
+        LanguageEnum.zhTW,
+        LanguageEnum.en,
+        LanguageEnum.enUK,
+        LanguageEnum.enUS,
+        LanguageEnum.de,
+        LanguageEnum.ru,
+        LanguageEnum.uk,
+        LanguageEnum.be,
+        LanguageEnum.kk,
+        LanguageEnum.sr,
+        LanguageEnum.fr,
+        LanguageEnum.ja,
+        LanguageEnum.ko,
+        LanguageEnum.ar,
+      ],
+    ),
+    fenix: true,
   );
 }
 ```
 
-## 2.Theme Management
+In older versions, you needed to configure the default language using `defaultLang: LanguageEnum.zh,`. Currently, the first configuration in the list serves as the default.
 
-Theme management in application service is used to switch different color themes, and each theme contains two modes, namely dark mode and light mode.
-There are many theme data generated by [flex_color_scheme](https://pub.dev/packages/flex_color_scheme) built into the library.
+### 2.1 主题管理
 
-The following is the built-in theme table:
+应用服务中的主题管理用于切换不同的颜色主题，每个主题包含两种模式，即深色模式和浅色模式。
+库中内置了由 [flex_color_scheme](https://pub.dev/packages/flex_color_scheme) 生成的许多主题数据。
+
+以下是内置主题表：
 
 | Theme Name            | Light Theme                     | Dark Theme                     |
 | --------------------- | ------------------------------- | ------------------------------ |
@@ -153,7 +136,7 @@ The following is the built-in theme table:
 | willowWasabi          | willowWasabiLightTheme          | willowWasabiDarkTheme          |
 | yukonGoldYellow       | yukonGoldYellowLightTheme       | yukonGoldYellowDarkTheme       |
 
-To switch themes, you can use the `setColorTheme` method of the **AppService** instance to toggle themes. The method signature is as follows:
+Switching themes can be achieved using the `setColorTheme` method of the **AppService** instance object, which has the following type signature:
 
 ```dart
 void setColorTheme(ColorThemesEnum themeEnum)
@@ -165,13 +148,13 @@ For example:
 // Get the AppService instance
 final AppService appService = GetIt.instance.get<AppService>();
 
-// Switch the theme to bigStoneTulip
+// Switch theme to bigStoneTulip
 appService.setColorTheme(ColorThemesEnum.bigStoneTulip);
 ```
 
 #### ThemeModal
 
-You can use the **ThemeModal** modal component to provide users with a more intuitive theme selection, for example:
+You can use the **ThemeModal** modal dialog component to provide users with a more intuitive theme selection, for example:
 
 ```dart
 const ThemeModal(),
@@ -179,22 +162,22 @@ const ThemeModal(),
 
 It displays as a theme icon on the page:
 
-![chrome_HM2hFfct9z](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_HM2hFfct9z.png)
+![chrome_HM2hFfct9z](./readme_pics/chrome_HM2hFfct9z.png)
 
-If you touch or click on the icon, a dialog will appear to allow users to choose a theme:
+If you touch or click on this icon, a dialog will appear for the user to select a theme:
 
-![chrome_oPKRHK21u2](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_oPKRHK21u2.png)
+![chrome_oPKRHK21u2](./readme_pics/chrome_oPKRHK21u2.png)
 
-Each theme is displayed in the modal as a circle with its `primaryColor`, and the selected theme has a checkmark next to its circle.
+Each theme will be displayed as a circular shape with its `primaryColor` in the modal, and the selected theme will have a checkmark symbol.
 
-Since version `3.0.0`, you can specify available themes in the **ThemeModal** component using the `themes` parameter. If not specified or specified as an empty array, all built-in themes are used by default.
+Starting from version `3.0.0`, you can specify available themes in the **ThemeModal** component using the `themes` parameter. If not specified or specified as an empty array, all built-in themes will be used by default.
 
 #### showThemeModal
 
-Starting from this version, the `showThemeModal` method has been added. `showThemeModal` is a function that offers more flexibility in usage compared to **ThemeModal**. For example:
+`showThemeModal` is a function that provides more flexibility compared to **ThemeModal**. For example:
 
 ```dart
-// onTap parameter of a certain component
+// 某一个组件的onTap参数
 onTap: (_) {
   showThemeModal(
     context,
@@ -208,26 +191,52 @@ onTap: (_) {
 },
 ```
 
-### Dark Mode Management
+### 2.2 Dark Mode Management
 
-In the `App Service` library, Dark/Light mode is treated as two sub-states under the same theme, essentially defining two sets of corresponding theme data. You can directly toggle dark mode using the `toggleDarkMode` method in the AppService singleton:
+In the `App Service` library, Dark/Light mode is two sub-states under the same theme, essentially defining two sets of corresponding theme data. You can directly toggle dark mode using the `toggleDarkMode` method in the singleton of AppService:
 
 ```dart
-// Get the AppService singleton
+// Get the singleton instance of AppService
 final AppService appService = GetIt.instance.get<AppService>();
 // Toggle dark mode
-appService.toggleDarkMode();
+appService.toggleDarkMode()
 ```
 
-Additionally, on the instance object `appService`, there are methods `setDarkMode` and `setLightMode` for setting dark and light modes, respectively.
+Additionally, on the instance object `appService`, methods `setDarkMode` and `setLightMode` are available for setting dark/light mode.
 
-**DarkModeSwitch** is a toggle switch for dark mode that you can use directly in your code. In appearance, it looks like this:
+**DarkModeSwitch** is a readily usable switch for toggling dark mode, which you can directly utilize in your code. In appearance, it looks like this:
 
-![chrome_kVi5w711Re](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_kVi5w711Re.gif)
+![chrome_kVi5w711Re](./readme_pics/chrome_kVi5w711Re.gif)
+
+### 2.3 Follow System Mode
+
+Starting from V4.0.0, a new feature of following the system's dark mode has been added. By changing the value of `followSystem` property in AppService, you can set whether to follow the system. Once you manually change the dark mode, the value of `followSystem` will be set to false. `followSystem` is a variable of type `RxBool`, meaning it is reactive. For example:
+
+```dart
+Obx(
+  () => Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text('app_service.follow_system'.tr + 'app_service.:'.tr),
+      Checkbox(
+        value: Get.find<AppService>().followSystem.value,
+        onChanged: (value) {
+          Get.find<AppService>().followSystem.value = value!;
+          Get.find<AppService>().saveFollowSystem();
+        },
+      ),
+    ],
+  ),
+),
+```
+
+![alt text](./readme_pics/ApplicationFrameHost_nkub0Y08No.gif)
+
+The behavior of system mode follow varies across different platforms; on Windows platform, it forcibly follows the system's dark mode.
 
 ## 3. Localization
 
-### 3.1 Message
+### 3.1 Messages
 
 **Messages** is a translation container that accepts a list, which can contain multiple translations. Its type signature is:
 
@@ -237,7 +246,7 @@ Messages Messages(
 )
 ```
 
-You should pass it into the **GetMaterialApp** top-level component via the `translations` parameter, and it must include a `AppServiceMessages().keys` in the list, which is a translation file for **App Service**. For example:
+You should pass it into the top-level component **GetMaterialApp** through the `translations` parameter, and it must include `AppServiceMessages().keys` in the list, which is a translation file for **App Service**. For example:
 
 ```dart
 GetMaterialApp(
@@ -249,7 +258,7 @@ GetMaterialApp(
 );
 ```
 
-Here, **HomeMessages** is a hypothetical custom translation file that looks like this:
+Where **HomeMessages** is an assumed custom translation file, it looks like this:
 
 ```dart
 import 'package:get/get.dart';
@@ -273,10 +282,9 @@ class HomeMessages extends Translations {
       };
 }
 ```
+Of course, depending on the needs of your project, you can define more translation files like this and load them in the `translations` list of **Messages**.
 
-Certainly, depending on the project's needs, you can define more translation files and load them in the `translations` list of **Messages**.
-
-When implementing internationalization, defining the supported languages is done by specifying the `supportedLanguages` parameter of the **AppService**. It accepts a list composed of multiple **LanguageEnum** enum values. **AppService** also needs to specify a default language. For example:
+When implementing internationalization, specifying the supported languages is done through the `supportedLanguages` parameter of the **AppService** constructor. It accepts a list composed of multiple **LanguageEnum** enum values. Additionally, **AppService** needs to specify a default language. For example:
 
 ```dart
 AppService appService = AppService(
@@ -288,14 +296,13 @@ AppService appService = AppService(
   defaultLang: LanguageEnum.zh,
 );
 ```
+The default value of `defaultLang` is *LanguageEnum.en*. This definition needs to correspond with the `locale` parameter in the top-level component.
 
-Here, the default value for `defaultLang` is *LanguageEnum.en*. This definition needs to correspond to the `locale` parameter in the top-level component.
+The application title cannot be translated using **GetX**'s `.tr` because this method is unavailable before the initialization of the top-level component. This limitation is particularly noticeable in the localization switch effect on the **Web**:
 
-The application title cannot be translated using the `.tr` provided by **GetX** because this method is not available before the initialization of the top-level component. This is especially evident in the localization switch effect on the **Web**:
+![chrome_0ywly93CSl](./readme_pics/chrome_0ywly93CSl.gif)
 
-![chrome_0ywly93CSl](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_0ywly93CSl.gif)
-
-To achieve dynamic switching, you can use a `switch` statement, as shown in the example below:
+To achieve this dynamic switching, you can use a `switch` statement as shown in the following example:
 
 ```dart
 import 'package:app_service/app_service.dart';
@@ -317,13 +324,12 @@ GetMaterialApp(
     HomeMessages().keys,
   ]),
   locale: const Locale('zh', 'CN'),
-  fallbackLocale: const Locale('en', 'US'),
   home: const HomeView(),
 );
 
 ```
 
-To switch languages, you can use the `updateLocale` method on the **AppService** instance. The method signature is:
+To switch languages, you can use the `updateLocale` method on the **AppService** instance object, which has the following type signature:
 
 ```dart
 void updateLocale(LanguageEnum newLanguage)
@@ -335,13 +341,13 @@ For example:
 appService.updateLocale(LanguageEnum.zh);
 ```
 
-### 3.2 Switching local language
+### 3.2 Switching Local Language
 
-There are two components available for displaying a language selection menu to switch the local language: **LangSelectMenu** and **Wen**.
+There are two **Widgets** available for displaying a language selection menu to switch the local language: **LangSelectMenu** and **Wen**.
 
 #### 3.2.1 LangSelectMenu
 
-**LangSelectMenu** is a regular square dropdown button, for example:
+**LangSelectMenu** is a regular rectangular dropdown button, for example:
 
 ```dart
 const LangSelectMenu(),
@@ -349,84 +355,47 @@ const LangSelectMenu(),
 
 It looks like this:
 
-![chrome_WBdxDZiVCG](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_WBdxDZiVCG.gif)
+![chrome_WBdxDZiVCG](./readme_pics/chrome_WBdxDZiVCG.gif)
 
-#### 3.2.2 Wen
-
-**Wen** is also a button with a pop-up menu, but it is displayed with an icon, usually in the **Header**:
+**Wen** is also a button for a popup menu, but it displays an icon, typically used within a **Header**:
 
 ```dart
 const Wen()
 ```
 
-It looks like this:
+It appears as follows:
 
-![C844qQlH1K](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/C844qQlH1K.png)
+![C844qQlH1K](./readme_pics/C844qQlH1K.png)
 
-You can customize the displayed icon, as well as the size of the icon, and it can be any widget.
+You can customize the displayed icon, its size, and it can be any widget.
 
-#### 3.2.3 LanguageSelectPage & CupertinoLanguageSelectPage
+#### LanguageSelectPage & CupertinoLanguageSelectPage
 
-If you want to choose a language in the settings page, you can consider using the **LanguageSelectPage or CupertinoLanguageSelectPage** widgets. Those widgetsis a language selection page that you can open from a settings item.
+If you wish to select a language in a settings page, you may consider using **LanguageSelectPage** or **CupertinoLanguageSelectPage** components. These components represent a language selection page, which you can open from a settings item.
 
-![1709576847626](https://github.com/jacklee1995/flutter_app_service/blob/master/example/readme_images/1709576847626.gif)
+![1709576847626](./readme_pics/1709576847626.gif)
 
-## 4. About Initialization
+## 3. Web App
 
-Initialization is used to read user data from persistent storage. The **AppService** instance provides an `init` method for its own initialization.
+In a Web App, the current [sharedPreferencesWeb](https://pub.dev/packages/shared_preferences_web) library implements key-value pair storage through [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). Changes in relevant states managed by the AppService will be directly reflected in the browser's localStorage:
 
-In your application, there are various ways to perform initialization. For example, the following code demonstrates initialization through the `onInit` method of the top-level component **GetMaterialApp**:
+![Alt text](./readme_pics/chrome_aQ4vYWZSYM.gif)
 
-```dart
-// ...
-void main() async {
-  runApp(const MyApp());
-}
+## 4. Example App
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+You can find an example application of **App Service** at [https://github.com/jacklee1995/flutter_app_service/tree/master/example](https://github.com/jacklee1995/flutter_app_service/tree/master/example).
 
-  Future<void> onInit(BuildContext context) async {
-    // Init AppService
-    final appService = GetIt.instance.get<AppService>();
-    await appService.init();
-    // ...Other initializations
-  }
+## 5. Appendix
 
-  @override
-  Widget build(BuildContext context) {
-    final appService = GetIt.instance.get<AppService>();
+### About Versions
 
-    return GetMaterialApp(
-      // ...
-      onInit: () async {
-        await onInit(context);
-      },
-    );
-  }
-}
-```
+The App Service library depends on the following modules.
 
-## 5. Web App
-
-In the Web App, the current [sharedPreferencesWeb](https://pub.dev/packages/shared_preferences_web) library utilizes [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) for key-value pair storage. If there are changes to the relevant states managed by AppService, these changes will be directly reflected in the browser's localStorage:
-
-![Alt text](https://raw.githubusercontent.com/jacklee1995/flutter_app_service/master/example/readme_images/chrome_aQ4vYWZSYM.gif)
-
-## 6. Appendix
-
-### About version
-
-App Service
-
-The App Service library depends on the following modules. Starting from version `3.0.0`, they are no longer built-in: GetX, GetIt. Therefore, you need to install them manually in your project.
-
-You can install your preferred version, within the major version range, for GetX, GetIt:
+You can install any version you prefer; any GetX version within a major version range should work:
 
 | Library | Recommended Major Version |
 | :------ | :------------------------ |
 | GetX    | 4.6                       |
-| GetIt   | 4.6                       |
 
 Versions within a small difference are generally compatible.
 
